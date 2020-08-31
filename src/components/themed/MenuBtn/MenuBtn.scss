@@ -1,0 +1,12 @@
+.btn_menu{
+  transition: color 500ms cubic-bezier(0.4, 0, 0.2, 1) 100ms!important;
+}
+@media (max-width: 360px) {
+  .btn_menu{
+    position: absolute!important;
+    z-index: 1000;
+    bottom: 0;
+    right: 0;
+  }
+}
+

@@ -10,7 +10,7 @@ export default {
     contrastText: white,
     dark: colors.indigo[900],
     main: colors.indigo[500],
-    light: colors.indigo[100]
+    light: colors.lightBlue[600]
   },
   secondary: {
     contrastText: white,
@@ -45,11 +45,15 @@ export default {
   text: {
     primary: colors.blueGrey[900],
     secondary: colors.blueGrey[600],
-    link: colors.blue[600]
+    link: colors.blue[600],
+    dark: colors.blue[600],
+    light: colors.blueGrey[900],
   },
   background: {
     default: "#F4F6F8",
-    paper: white
+    paper: white,
+    dark: "#212223",
+    light: white
   },
   icon: colors.blueGrey[600],
   divider: colors.grey[200]

@@ -1,27 +1,36 @@
 import styled from "styled-components/macro";
-import { Box, List } from "@material-ui/core";
+import { List, ListItem } from "@material-ui/core";
+
+import { device } from "../../constants/breakpoint";
+
 
 const StyledNav = styled(List)`
   ${({ theme }) => `
-    background-color: ${theme.palette.primary.main};
+    will-change: background-color;
     display: flex;
     padding: 0 20px;
+    overflow: hidden;
+    @media ${device.mobileS}{
+
+    }
+    @media ${device.laptop}{
+      flex-direction: column;
+    }
   `}
 `;
 
-const NavItem = styled(Box)`
+const NavItem = styled(ListItem)`
   ${({ theme }) => `
     align-items: stretch
     box-sizing: content-box;
     padding: 20px;
-
+    
     a {
       align-items: center;
       color: ${theme.palette.primary.contrastText};
       display: flex;
       justify-content: center;
       text-decoration: none;
-      text-transform: uppercase;
 
       &:hover {
         color: ${theme.palette.primary.dark};

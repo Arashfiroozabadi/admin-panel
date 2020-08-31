@@ -1,4 +1,4 @@
-import { CounterActionTypes, CounterActions } from "./types";
+import { CounterActionTypes, CounterActions, ThemeActions, ThemeActionTypes } from "./types";
 
 const incrementCounter = (): CounterActions => {
   return {
@@ -12,7 +12,18 @@ const decrementCounter = (): CounterActions => {
   };
 };
 
+// >==>> Theme
+const changeTheme=():ThemeActions => {
+  return {
+    type: ThemeActionTypes.CHANGE_THEME
+  };
+};
+
+
+// Theme <<==<
+
 export default {
   incrementCounter,
-  decrementCounter
+  decrementCounter,
+  changeTheme
 };

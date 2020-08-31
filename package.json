@@ -26,6 +26,7 @@
     "eslint-config-prettier": "^6.11.0",
     "eslint-config-react-app": "^5.2.1",
     "eslint-plugin-import": "^2.22.0",
+    "gsap": "file:gsap-bonus.tgz",
     "jest-enzyme": "^7.1.2",
     "jest-junit": "^10.0.0",
     "jest-styled-components": "^7.0.3",
@@ -66,5 +67,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "typescript-styled-plugin": "^0.15.0"
   }
 }

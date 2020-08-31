@@ -4,15 +4,16 @@ import { combineReducers, createStore } from "redux";
 
 import { Provider } from "react-redux";
 
-import { CounterReducer } from "./features/counter";
+import { CounterReducer, ThemeReducer } from "./features/counter";
 
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 
-import "./index.css";
+import "./index.scss";
 
 const rootReducer = combineReducers({
   count: CounterReducer,
+  theme: ThemeReducer
 });
 
 const preloadedState = {};

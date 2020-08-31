@@ -1,0 +1,22 @@
+.navlist {
+}
+.nav_link {
+  text-decoration: none;
+  overflow: hidden;
+}
+
+@media (max-width: 360px) {
+  .navlist {
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+    position: absolute !important;
+    bottom: 0;
+  }
+  // .test{
+  //   position: fixed!important;
+  //   background-color: red!important;
+  //   bottom: 0;
+  //   right: 0;
+  // }
+}

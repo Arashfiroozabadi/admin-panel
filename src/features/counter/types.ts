@@ -24,3 +24,23 @@ export interface SystemState {
     value: number
   }
 }
+
+// Theme >=>>
+export enum ThemeActionTypes {
+  CHANGE_THEME="CHANGE_THEME"
+
+}
+interface ThemeBaseAction {
+  type: ThemeActionTypes;
+} export interface CHANGE_THEME extends ThemeBaseAction{
+  type: ThemeActionTypes.CHANGE_THEME
+}
+export type ThemeActions = CHANGE_THEME
+
+
+ export interface ThemeType{
+  theme: "dark" | "light";
+}
+
+
+// Theme <<==< 
