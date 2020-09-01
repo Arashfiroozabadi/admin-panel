@@ -7,7 +7,7 @@ const StyledNavBtn= styled(Button)`
   width: 100%;
   justify-content: start;
   text-transform: inherit;
-  transition: background-color 500ms cubic-bezier(0.4, 0, 0.2, 1) 100ms!important;
+  transition: background-color 500ms cubic-bezier(0.4, 0, 0.2, 1);
   @media ${device.mobileS}{
     
   }
