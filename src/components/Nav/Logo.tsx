@@ -13,7 +13,7 @@ const Logo = styled(Paper)`
   justify-content: center;
   padding: 5px;
   margin: 5px;
-  transition: background-color 500ms cubic-bezier(0.4,0,0.2,1) 100ms!important;
+  transition: background-color 0.5s cubic-bezier(0.4,0,0.2,1) 0s!important;
 `;
 
 export default () => {
