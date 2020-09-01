@@ -49,11 +49,31 @@ export default {
     dark: colors.blue[600],
     light: colors.blueGrey[900],
   },
+  h1: {
+    dark: white,
+    light: black,
+  },
   background: {
     default: "#F4F6F8",
     paper: white,
     dark: "#212223",
     light: white
+  },
+  paper: {
+    dark: "#171819",
+    light: white
+  },
+  input: {
+    dark: colors.grey[600],
+    light: colors.grey[800]
+  },
+  border: {
+    dark: black,
+    light: black
+  },
+  inputColor: {
+    dark: colors.grey[600],
+    light: colors.grey[800]
   },
   icon: colors.blueGrey[600],
   divider: colors.grey[200]
