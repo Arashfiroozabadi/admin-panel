@@ -1,0 +1,79 @@
+.react-calendar {
+  color: #2192f3;
+  border: none;
+  min-height: 280px;
+  transition: background-color 500ms cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 15px;
+  background-color: inherit;
+  .react-calendar__navigation {
+    margin-bottom: 0.5em;
+    .react-calendar__navigation__arrow {
+      color: #2192f3;
+    }
+    .react-calendar__navigation__label {
+      color: #2192f3;
+    }
+    .react-calendar__navigation button:enabled:hover,
+    :enabled:hover {
+      background-color: #e6e6e6;
+      transition: background-color 500ms cubic-bezier(0.4, 0, 0.2, 1);
+    }
+  }
+  .react-calendar__viewContainer {
+    .react-calendar__month-view {
+      .react-calendar__month-view__weekdays__weekday {
+        width: 50px;
+      }
+      .react-calendar__month-view__days {
+        .day {
+          height: 50px;
+          border-radius: 5px;
+        }
+        .day:enabled:hover,
+        .day:enabled:focus {
+          background-color: #e6e6e6;
+          transition: background-color 500ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .react-calendar__tile--active:enabled:hover,
+        .react-calendar__tile--active:enabled:focus {
+          background: #1087ff;
+          transition: background-color 500ms cubic-bezier(0.4, 0, 0.2, 1);
+        }
+      }
+    }
+  }
+}
+.react-calendar__year-view__months {
+  .react-calendar__tile:enabled:hover,
+  .react-calendar__tile:enabled:focus {
+    background-color: #e6e6e6;
+    transition: background-color 500ms cubic-bezier(0.4, 0, 0.2, 1);
+  }
+}
+.react-calendar__year-view__months {
+  .react-calendar__tile--hasActive:enabled:hover,
+  .react-calendar__tile--hasActive:enabled:focus {
+    background: #a9d4ff;
+  }
+}
+.react-calendar__tile--hasActive:enabled:hover,
+.react-calendar__tile--hasActive:enabled:focus {
+  background: #a9d4ff;
+  transition: background-color 500ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+.react-calendar__tile:enabled:hover,
+.react-calendar__tile:enabled:focus {
+  background-color: #e6e6e6;
+  transition: background-color 500ms cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+@media (min-width: 320px) {
+  .react-calendar {
+    width: 100%;
+  }
+}
+@media (min-width: 1024px) {
+  .react-calendar {
+    width: 350px;
+  }
+}
