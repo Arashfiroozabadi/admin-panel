@@ -46,8 +46,8 @@ export default {
     primary: colors.blueGrey[900],
     secondary: colors.blueGrey[600],
     link: colors.blue[600],
-    dark: colors.blue[600],
-    light: colors.blueGrey[900],
+    dark: white,
+    light: black,
   },
   h1: {
     dark: white,
@@ -75,6 +75,15 @@ export default {
     dark: colors.grey[600],
     light: colors.grey[800]
   },
-  icon: colors.blueGrey[600],
+  icon: {
+    color: {
+      dark: white,
+      light: colors.grey[800],
+    },
+    bgc: {
+      dark: colors.lightBlue[600],
+      light: colors.lightBlue[100]
+    }
+  },
   divider: colors.grey[200]
 };
