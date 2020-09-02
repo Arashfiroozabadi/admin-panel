@@ -7,13 +7,13 @@ import { device } from "../../constants/breakpoint";
 const StyledNav = styled(List)`
   ${({ theme }) => `
     will-change: background-color;
-    display: flex;
     padding: 0 20px;
     overflow: hidden;
     @media ${device.mobileS}{
-
+      display: none;
     }
     @media ${device.laptop}{
+      display: flex;
       flex-direction: column;
     }
   `}
