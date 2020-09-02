@@ -117,7 +117,11 @@ const Home: React.FC = () => {
                 </Typography>
               </div>
               <div className={classes.imgBox} >
-                <StyledImg src={imgOne} alt="" />
+                <StyledImg
+                  src={imgOne}
+                  alt="https://dribbble.com/shots/4793102-Teamwork-and-Brainstorming"
+                  title="https://dribbble.com/shots/4793102-Teamwork-and-Brainstorming"
+                />
               </div>
             </StyledSection>
             <StyledSection
