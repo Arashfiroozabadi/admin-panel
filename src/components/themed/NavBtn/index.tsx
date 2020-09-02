@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { ButtonProps } from "@material-ui/core";
 
-import { NavLink, NavLinkProps } from "react-router-dom";
+import { NavLink } from "react-router-dom";
 
 import { selectors } from "../../../features/counter";
 import palette from "../../../ui/palette";
