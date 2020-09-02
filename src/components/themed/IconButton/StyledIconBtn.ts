@@ -1,7 +1,7 @@
 import styled from "styled-components/macro";
 import { IconButton } from "@material-ui/core";
 
-import { colorTransition, bgcTransition } from "../../../constants/breakpoint";
+import { colorTransition, bgcTransition } from "../../../constants/timing";
 
 
 
