@@ -11,17 +11,23 @@ import AvatarGroup from "@material-ui/lab/AvatarGroup";
 import SearchIcon from "@material-ui/icons/Search";
 import AddIcon from "@material-ui/icons/Add";
 import NotificationsNoneIcon from "@material-ui/icons/NotificationsNone";
-
-import "react-calendar/dist/Calendar.css";
-import "./index.scss";
+import CallIcon from "@material-ui/icons/Call";
+import MailIcon from "@material-ui/icons/Mail";
+import ChatBubbleIcon from "@material-ui/icons/ChatBubble";
+import MoreVertIcon from "@material-ui/icons/MoreVert";
 
 import Counter from "../../components/counter/Counter";
-import { Container, Typography, IconButton, Main } from "../../components/themed";
+import {
+  Container, Typography, IconButton,
+  Main, Divider, LinearProgress
+} from "../../components/themed";
 import { selectors } from "../../features/counter";
 import palette from "../../ui/palette";
 import { device } from "../../constants/breakpoint";
 import { colorTransition, bgcTransition } from "../../constants/timing";
 
+import "react-calendar/dist/Calendar.css";
+import "./index.scss";
 
 import imgOne from "./imgOne.webp";
 
@@ -62,13 +68,6 @@ const Home: React.FC = () => {
                   style={{
                     borderColor: palette.border[t],
                   }}
-                  alt="Remy Sharp"
-                  src="https://material-ui.com/static/images/avatar/1.jpg"
-                />
-                <StyledAvatar
-                  style={{
-                    borderColor: palette.border[t],
-                  }}
                   alt="Travis Howard" src="https://material-ui.com/static/images/avatar/2.jpg"
                 />
                 <StyledAvatar
@@ -101,47 +100,242 @@ const Home: React.FC = () => {
         {/* >>==> Main */}
         <Main className={classes.main} >
           <StyledArticle>
-            <StyledSection
-              style={{
-                backgroundColor: palette.background[t]
-              }}
-            >
-              <div className={classes.block} >
-                <Typography gutterBottom variant="h3" >
-                  Welcome John
-                </Typography>
-                <Typography variant="body2" >
-                  Manage all the things from single
-                  dashboard like HRMS, PMS, Recruitment,
-                  and all the things.
-                </Typography>
-              </div>
-              <div className={classes.imgBox} >
-                <StyledImg
-                  src={imgOne}
-                  alt="https://dribbble.com/shots/4793102-Teamwork-and-Brainstorming"
-                  title="https://dribbble.com/shots/4793102-Teamwork-and-Brainstorming"
-                />
-              </div>
-            </StyledSection>
-            <StyledSection
-              style={{
-                backgroundColor: palette.background[t]
-              }}
-            >
-              <div
-                className={classes.calendar}
+            <StyledRow>
+              <StyledSection
                 style={{
                   backgroundColor: palette.background[t]
                 }}
               >
-                <Calendar
-                  onChange={() => clenChange}
-                  value={clenValue}
-                  tileClassName="day"
-                />
-              </div>
-            </StyledSection>
+                <div className={classes.block} >
+                  <Typography gutterBottom variant="h5" >
+                    Welcome John
+                </Typography>
+                  <Typography
+                    style={{
+                      color: palette.text.caption[t]
+                    }}
+                    variant="body2"
+                  >
+                    Manage all the things from single
+                    dashboard like HRMS, PMS, Recruitment,
+                    and all the things.
+                </Typography>
+                </div>
+                <div className={classes.imgBox} >
+                  <StyledImg
+                    src={imgOne}
+                    alt="https://dribbble.com/shots/4793102-Teamwork-and-Brainstorming"
+                    title="https://dribbble.com/shots/4793102-Teamwork-and-Brainstorming"
+                  />
+                </div>
+              </StyledSection>
+              <StyledSection row >
+                <Box flexGrow={1} m="10px" p="0px 24px" borderRadius={15}
+                  style={{
+                    backgroundColor: palette.background[t]
+                  }}
+                >
+                  <StyledCard>
+                    <Box p="0px 25px" display="flex" alignItems="center" flexDirection="column" >
+                      <StyledAvatar
+                        style={{
+                          width: 45,
+                          height: 45,
+                          marginBottom: 10,
+                          borderColor: palette.border[t],
+                        }}
+                        alt="Remy Sharp"
+                        src="https://material-ui.com/static/images/avatar/1.jpg"
+                      />
+                      <Typography variant="h5">
+                        John Doe
+                    </Typography>
+                      <Typography
+                        style={{
+                          color: palette.text.caption[t]
+                        }}
+                        variant="body2"
+                        gutterBottom
+                      >
+                        Sr. UI/UX Designer
+                   </Typography>
+                      <Box
+                        display="flex"
+                        justifyContent="space-between"
+                        width={1}
+                        marginBottom={1}
+                      >
+                        <StyledIcon
+                          style={{
+                            color: palette.icon.common.color[t],
+                            backgroundColor: palette.icon.common.bgc[t]
+                          }}
+                        >
+                          <CallIcon fontSize="small" />
+                        </StyledIcon>
+                        <StyledIcon
+                          style={{
+                            color: palette.icon.common.color[t],
+                            backgroundColor: palette.icon.common.bgc[t]
+                          }}
+                        >
+                          <MailIcon fontSize="small" />
+                        </StyledIcon>
+                        <StyledIcon
+                          style={{
+                            color: palette.icon.common.color[t],
+                            backgroundColor: palette.icon.common.bgc[t]
+                          }}
+                        >
+                          <ChatBubbleIcon fontSize="small" />
+                        </StyledIcon>
+                      </Box>
+                    </Box>
+                    <Divider />
+                    <Box display="flex" width={1} justifyContent="space-between" alignItems="center">
+                      <Typography variant="body2">
+                        Company
+                      </Typography>
+                      <Typography variant="caption"
+                        style={{
+                          color: palette.text.caption[t]
+                        }}
+                      >
+                        Google
+                      </Typography>
+                    </Box>
+                    <Box display="flex" width={1} justifyContent="space-between" alignItems="center">
+                      <Typography variant="body2">
+                        Joining Date
+                      </Typography>
+                      <Typography variant="caption"
+                        style={{
+                          color: palette.text.caption[t]
+                        }}
+                      >
+                        20/04/2019
+                      </Typography>
+                    </Box>
+                    <Box display="flex" width={1} justifyContent="space-between" alignItems="center">
+                      <Typography variant="body2">
+                        Tasks
+                      </Typography>
+                      <Typography variant="caption"
+                        style={{
+                          color: palette.text.caption[t]
+                        }}
+                      >
+                        67 Active
+                      </Typography>
+                    </Box>
+                  </StyledCard>
+                </Box>
+                <Box flexGrow={1} m="5px" display="flex" flexDirection="column">
+                  <Box
+                    m="5px"
+                    p="16px"
+                    borderRadius={15}
+                    flex={1}
+                    style={{
+                      backgroundColor: palette.background[t]
+                    }}
+                  >
+                    <Box
+                      style={{
+                        backgroundColor: palette.background[t]
+                      }}
+                      display="flex"
+                      alignItems="center"
+                      justifyContent="space-between"
+                    >
+                      <StyledAvatar>F</StyledAvatar>
+                      <Typography
+                        style={{
+                          flexGrow: 0.8
+                        }}
+                      >
+                        FixPay App
+                      </Typography>
+                      <StyledIcon>
+                        <MoreVertIcon />
+                      </StyledIcon>
+                    </Box>
+                    <Box>
+                      <Typography>
+                        Task Done: 25 / 50
+                      </Typography>
+                      <LinearProgress variant="determinate" value={50} />
+                    </Box>
+                  </Box>
+                  <Box
+                    m="5px"
+                    p="16px"
+                    flex={1}
+                    borderRadius={15}
+                    style={{
+                      backgroundColor: palette.background[t]
+                    }}
+                  >
+                    <Box
+                      style={{
+                        backgroundColor: palette.background[t]
+                      }}
+                      display="flex"
+                      alignItems="center"
+                      justifyContent="space-between"
+                    >
+                      <StyledAvatar>R</StyledAvatar>
+                      <Typography
+                        style={{
+                          flexGrow: 0.8
+                        }}
+                      >
+                        Risely App
+                      </Typography>
+                      <StyledIcon>
+                        <MoreVertIcon />
+                      </StyledIcon>
+                    </Box>
+                    <Box>
+                      <Typography>
+                        Task Done: 25 / 50
+                      </Typography>
+                      <LinearProgress variant="determinate" value={50} />
+                    </Box>
+                  </Box>
+                </Box>
+              </StyledSection>
+            </StyledRow>
+            <StyledRow>
+              <StyledSection
+                style={{
+                  backgroundColor: palette.background[t]
+                }}
+              >
+                <div
+                  className={classes.calendar}
+                  style={{
+                    backgroundColor: palette.background[t]
+                  }}
+                >
+                  <Calendar
+                    onChange={() => clenChange}
+                    value={clenValue}
+                    tileClassName="day"
+                  />
+                </div>
+              </StyledSection>
+
+              <StyledSection
+                style={{
+                  backgroundColor: palette.background[t]
+                }}
+              >
+                <Box>
+                  <h1>test</h1>
+                </Box>
+              </StyledSection>
+            </StyledRow>
           </StyledArticle>
         </Main>
         {/* Main <<==< */}
@@ -185,10 +379,10 @@ const StyledAppBar = styled(AppBar)`
 
 `;
 const StyledToolbar = styled(Toolbar)`
-  margin: 0px 10px;
   justify-content: space-between;
   @media ${device.mobileS}{
     padding:0;
+    margin: 0px 10px;
     align-items: initial;
     flex-direction: column-reverse;
   }
@@ -196,6 +390,7 @@ const StyledToolbar = styled(Toolbar)`
     align-items: center;
     padding-left: 16px;
     padding-right: 16px;
+    margin: 0px 20px;
     flex-direction: initial;
   }
 `;
@@ -211,6 +406,22 @@ const StyledDiv = styled.div`
   flex-grow: 0.02;
   align-items: center;
   justify-content: space-between;
+`;
+const StyledRow = styled.div`
+  display: flex;
+  flex-direction: column;
+  @media ${device.mobileS}{
+    
+  }
+  @media ${device.laptop}{
+    // flex-direction: initial;
+  }
+`;
+const StyledCard = styled.div`
+  padding: 16px 0px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
 `;
 const StyledAvatar = styled(Avatar)`
   width: 35px;
@@ -229,34 +440,52 @@ const StyledArticle = styled.article`
   display: flex;
   width:100%;
   @media ${device.mobileS}{
-    flex-direction: column;
+
   }
   @media ${device.laptop}{
-    flex-direction: initial;
+
   }
 `;
-const StyledSection = styled.section`
-  margin: 10px;
+const StyledSection = styled.section<{ column?: boolean, row?: boolean }>`
+  flex-grow: 1;
   display: flex;
-  padding: 0px 24px;
-  transition: ${colorTransition},${bgcTransition};
+  ${props => props.row ?
+    `
+    margin: 0px;
+    `
+    :
+    `
+      margin: 10px;
+      display: flex;
+      transition: ${colorTransition},${bgcTransition};
+      align-items: center;
+      border-radius: 15px;
+      justify-content: space-between;
+      @media ${device.mobileS}{
+        padding: 0;
+        flex-direction: column;
+      }
+      @media ${device.laptop}{
+        padding: 0px 24px;
+        flex-direction: initial;
+      }
+    `
+  }
+`;
+
+const StyledIcon = styled.div`
+  width: 30px;
+  height: 30px;
+  display: flex;
   align-items: center;
-  border-radius: 15px;
-  justify-content: space-between;
-  @media ${device.mobileS}{
-    padding: 0;
-    flex-direction: column;
-  }
-  @media ${device.laptop}{
-    flex-direction: initial;
-  }
+  border-radius: 50%;
+  justify-content: center;
+  transition: ${colorTransition},${bgcTransition};
 `;
 
 const StyledImg = styled.img`
   width: 85%;
   height: auto;
   border-bottom-left-radius: 37%;
-  border-bottom-right-radius: 71%;
-  border-top-left-radius: 75%;
-  border-top-right-radius: 32%;
+  border-top-right-radius: 37%;
 `;
