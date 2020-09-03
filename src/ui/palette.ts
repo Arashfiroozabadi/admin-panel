@@ -48,6 +48,10 @@ export default {
     link: colors.blue[600],
     dark: white,
     light: black,
+    caption: {
+      dark: colors.grey[600],
+      light: colors.grey[700],
+    }
   },
   h1: {
     dark: white,
@@ -83,7 +87,20 @@ export default {
     bgc: {
       dark: colors.lightBlue[600],
       light: colors.lightBlue[100]
+    },
+    common: {
+      bgc: {
+        dark: colors.grey["A400"],
+        light: colors.grey[400]
+      },
+      color: {
+        dark: colors.grey[600],
+        light: colors.grey[200]
+      }
     }
   },
-  divider: colors.grey[200]
+  cDivider: {
+    dark: colors.grey[800],
+    light: colors.grey[400]
+  },
 };
