@@ -9,7 +9,7 @@ import { selectors } from "../../../features/counter";
 
 
 interface PropsType extends TypographyProps {
-
+  component?: string
 }
 
 export default (props: PropsType) => {
