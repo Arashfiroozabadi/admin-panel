@@ -53,6 +53,16 @@ export default {
       light: colors.grey[700],
     }
   },
+  progress: {
+    colorprimary: {
+      dark: colors.grey["A400"],
+      light: colors.grey[400]
+    },
+    bar: {
+      dark: colors.green[700],
+      light: colors.green["A700"]
+    }
+  },
   h1: {
     dark: white,
     light: black,
