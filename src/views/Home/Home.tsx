@@ -102,6 +102,7 @@ const Home: React.FC = () => {
           <StyledArticle>
             <StyledRow>
               <StyledSection
+                forcepad
                 style={{
                   backgroundColor: palette.background[t]
                 }}
@@ -109,17 +110,18 @@ const Home: React.FC = () => {
                 <div className={classes.block} >
                   <Typography gutterBottom variant="h5" >
                     Welcome John
-                </Typography>
+                  </Typography>
                   <Typography
                     style={{
                       color: palette.text.caption[t]
                     }}
                     variant="body2"
+                    gutterBottom
                   >
                     Manage all the things from single
                     dashboard like HRMS, PMS, Recruitment,
                     and all the things.
-                </Typography>
+                  </Typography>
                 </div>
                 <div className={classes.imgBox} >
                   <StyledImg
@@ -130,8 +132,9 @@ const Home: React.FC = () => {
                 </div>
               </StyledSection>
               <StyledSection row >
-                <Box flexGrow={1} m="10px" p="0px 24px" borderRadius={15}
+                <Box display="flex" flexGrow={1} m="10px" p="0px 10px" borderRadius={15}
                   style={{
+                    transition: bgcTransition,
                     backgroundColor: palette.background[t]
                   }}
                 >
@@ -149,7 +152,7 @@ const Home: React.FC = () => {
                       />
                       <Typography variant="h5">
                         John Doe
-                    </Typography>
+                      </Typography>
                       <Typography
                         style={{
                           color: palette.text.caption[t]
@@ -158,7 +161,7 @@ const Home: React.FC = () => {
                         gutterBottom
                       >
                         Sr. UI/UX Designer
-                   </Typography>
+                      </Typography>
                       <Box
                         display="flex"
                         justifyContent="space-between"
@@ -192,7 +195,10 @@ const Home: React.FC = () => {
                       </Box>
                     </Box>
                     <Divider />
-                    <Box display="flex" width={1} justifyContent="space-between" alignItems="center">
+                    <Box display="flex" width={1} flexGrow={1}
+                      justifyContent="space-between"
+                      alignItems="center"
+                    >
                       <Typography variant="body2">
                         Company
                       </Typography>
@@ -204,7 +210,9 @@ const Home: React.FC = () => {
                         Google
                       </Typography>
                     </Box>
-                    <Box display="flex" width={1} justifyContent="space-between" alignItems="center">
+                    <Box display="flex" width={1} flexGrow={1}
+                      justifyContent="space-between" alignItems="center"
+                    >
                       <Typography variant="body2">
                         Joining Date
                       </Typography>
@@ -216,7 +224,9 @@ const Home: React.FC = () => {
                         20/04/2019
                       </Typography>
                     </Box>
-                    <Box display="flex" width={1} justifyContent="space-between" alignItems="center">
+                    <Box display="flex" width={1} flexGrow={1}
+                      justifyContent="space-between" alignItems="center"
+                    >
                       <Typography variant="body2">
                         Tasks
                       </Typography>
@@ -231,76 +241,119 @@ const Home: React.FC = () => {
                   </StyledCard>
                 </Box>
                 <Box flexGrow={1} m="5px" display="flex" flexDirection="column">
-                  <Box
-                    m="5px"
-                    p="16px"
-                    borderRadius={15}
-                    flex={1}
+                  <Box m="5px" p="16px"
+                    borderRadius={15} flex={1}
                     style={{
+                      transition: bgcTransition,
                       backgroundColor: palette.background[t]
                     }}
                   >
                     <Box
-                      style={{
-                        backgroundColor: palette.background[t]
-                      }}
                       display="flex"
                       alignItems="center"
                       justifyContent="space-between"
                     >
                       <StyledAvatar>F</StyledAvatar>
-                      <Typography
-                        style={{
-                          flexGrow: 0.8
-                        }}
-                      >
-                        FixPay App
-                      </Typography>
+                      <Box flexGrow={0.8}>
+                        <Typography variant="body2">
+                          FixPay App
+                        </Typography>
+                      </Box>
                       <StyledIcon>
                         <MoreVertIcon />
                       </StyledIcon>
                     </Box>
-                    <Box>
+                    <Box width={0.7} >
                       <Typography>
                         Task Done: 25 / 50
                       </Typography>
                       <LinearProgress variant="determinate" value={50} />
                     </Box>
+                    <Box marginTop={2}>
+                      <AvatarGroup max={5} spacing="small">
+                        <StyledAvatar
+                          style={{
+                            borderColor: palette.border[t],
+                          }}
+                          alt="Travis Howard" src="https://material-ui.com/static/images/avatar/2.jpg"
+                        />
+                        <StyledAvatar
+                          style={{
+                            borderColor: palette.border[t],
+                          }}
+                          alt="Cindy Baker" src="https://material-ui.com/static/images/avatar/3.jpg"
+                        />
+                        <StyledAvatar
+                          style={{
+                            borderColor: palette.border[t],
+                          }}
+                          alt="Agnes Walker" src="https://material-ui.com/static/images/avatar/4.jpg"
+                        />
+                        <StyledAvatar
+                          style={{
+                            borderColor: palette.border[t],
+                          }}
+                          alt="Remy Sharp" src="https://material-ui.com/static/images/avatar/5.jpg"
+                        />
+                      </AvatarGroup>
+                    </Box>
                   </Box>
-                  <Box
-                    m="5px"
-                    p="16px"
+                  <Box m="5px" p="16px"
                     flex={1}
                     borderRadius={15}
                     style={{
+                      transition: bgcTransition,
                       backgroundColor: palette.background[t]
                     }}
                   >
                     <Box
-                      style={{
-                        backgroundColor: palette.background[t]
-                      }}
                       display="flex"
                       alignItems="center"
                       justifyContent="space-between"
                     >
                       <StyledAvatar>R</StyledAvatar>
-                      <Typography
-                        style={{
-                          flexGrow: 0.8
-                        }}
-                      >
-                        Risely App
-                      </Typography>
+                      <Box flexGrow={0.8}>
+                        <Typography variant="body2">
+                          Risely App
+                        </Typography>
+                      </Box>
                       <StyledIcon>
                         <MoreVertIcon />
                       </StyledIcon>
                     </Box>
-                    <Box>
+                    <Box width={0.7}>
                       <Typography>
                         Task Done: 25 / 50
                       </Typography>
                       <LinearProgress variant="determinate" value={50} />
+                    </Box>
+                    <Box marginTop={2}>
+                      <AvatarGroup max={5} spacing="small">
+                        <StyledAvatar
+                          style={{
+                            borderColor: palette.border[t],
+                          }}
+                          alt="Travis Howard" src="https://material-ui.com/static/images/avatar/2.jpg"
+                        />
+                        <StyledAvatar
+                          style={{
+                            borderColor: palette.border[t],
+                          }}
+                          alt="Cindy Baker" src="https://material-ui.com/static/images/avatar/3.jpg"
+                        />
+                        <StyledAvatar
+                          style={{
+                            borderColor: palette.border[t],
+                          }}
+                          alt="Agnes Walker" src="https://material-ui.com/static/images/avatar/4.jpg"
+                        />
+                        <StyledAvatar
+                          style={{
+                            borderColor: palette.border[t],
+                          }}
+                          alt="Remy Sharp" src="https://material-ui.com/static/images/avatar/5.jpg"
+                        />
+                      </AvatarGroup>
                     </Box>
                   </Box>
                 </Box>
@@ -390,7 +443,7 @@ const StyledToolbar = styled(Toolbar)`
     align-items: center;
     padding-left: 16px;
     padding-right: 16px;
-    margin: 0px 20px;
+    margin: 0px 17px;
     flex-direction: initial;
   }
 `;
@@ -402,7 +455,7 @@ const StyledSearch = styled(InputBase)`
 `;
 const StyledDiv = styled.div`
   display: flex;
-  padding: 5px 10px;
+  padding: 5px 0px;
   flex-grow: 0.02;
   align-items: center;
   justify-content: space-between;
@@ -420,6 +473,7 @@ const StyledRow = styled.div`
 const StyledCard = styled.div`
   padding: 16px 0px;
   display: flex;
+  flex-grow: 1;
   align-items: center;
   flex-direction: column;
 `;
@@ -440,18 +494,40 @@ const StyledArticle = styled.article`
   display: flex;
   width:100%;
   @media ${device.mobileS}{
-
+    flex-direction: column;
   }
-  @media ${device.laptop}{
-
+  @media ${device.laptopL}{
+    flex-direction: initial;
   }
 `;
-const StyledSection = styled.section<{ column?: boolean, row?: boolean }>`
+const StyledSection = styled.section<{ column?: boolean, row?: boolean, forcepad?: boolean }>`
   flex-grow: 1;
   display: flex;
+  ${props => props.forcepad ?
+    `
+    @media ${device.mobileS}{
+      padding: 10px;
+    }
+    @media ${device.tablet}{
+    }
+  `: `
+    @media ${device.mobileS}{
+      padding: 0;
+    }
+    @media ${device.tablet}{
+    }
+  `
+  }
   ${props => props.row ?
     `
     margin: 0px;
+    @media ${device.mobileS}{
+      padding: 0;
+      flex-direction: column;
+    }
+    @media ${device.tablet}{
+      flex-direction: initial;
+    }
     `
     :
     `
@@ -462,11 +538,13 @@ const StyledSection = styled.section<{ column?: boolean, row?: boolean }>`
       border-radius: 15px;
       justify-content: space-between;
       @media ${device.mobileS}{
-        padding: 0;
         flex-direction: column;
       }
+      @media ${device.tablet}{
+        flex-direction: row;
+      }
       @media ${device.laptop}{
-        padding: 0px 24px;
+        padding: 0px 10px;
         flex-direction: initial;
       }
     `
