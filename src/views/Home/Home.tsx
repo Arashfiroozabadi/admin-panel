@@ -29,6 +29,8 @@ import { colorTransition, bgcTransition } from "../../constants/timing";
 import "react-calendar/dist/Calendar.css";
 import "./index.scss";
 
+import { TaskManage } from "../../components";
+
 import imgOne from "./imgOne.webp";
 
 const Home: React.FC = () => {
@@ -385,7 +387,7 @@ const Home: React.FC = () => {
                 }}
               >
                 <Box>
-                  <h1>test</h1>
+                  <TaskManage />
                 </Box>
               </StyledSection>
             </StyledRow>
