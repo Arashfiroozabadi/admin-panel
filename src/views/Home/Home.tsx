@@ -134,7 +134,9 @@ const Home: React.FC = () => {
                 </div>
               </StyledSection>
               <StyledSection row >
-                <Box display="flex" flexGrow={1} m="10px" p="0px 10px" borderRadius={15}
+                <Box display="flex" flexGrow={1}
+                  m="10px" p="0px 10px" borderRadius={15}
+                  maxHeight={300}
                   style={{
                     transition: bgcTransition,
                     backgroundColor: palette.background[t]
@@ -243,7 +245,7 @@ const Home: React.FC = () => {
                   </StyledCard>
                 </Box>
                 <Box flexGrow={1} m="5px" display="flex" flexDirection="column">
-                  <Box m="5px" p="16px"
+                  <Box m="5px" p="16px" maxHeight={113}
                     borderRadius={15} flex={1}
                     style={{
                       transition: bgcTransition,
@@ -300,7 +302,7 @@ const Home: React.FC = () => {
                       </AvatarGroup>
                     </Box>
                   </Box>
-                  <Box m="5px" p="16px"
+                  <Box m="5px" p="16px" maxHeight={113}
                     flex={1}
                     borderRadius={15}
                     style={{
@@ -386,7 +388,9 @@ const Home: React.FC = () => {
                   backgroundColor: palette.background[t]
                 }}
               >
-                <Box>
+                <Box p="0px 10px"
+                  width={1}
+                >
                   <TaskManage />
                 </Box>
               </StyledSection>
@@ -498,7 +502,7 @@ const StyledArticle = styled.article`
   @media ${device.mobileS}{
     flex-direction: column;
   }
-  @media ${device.laptopL}{
+  @media ${device.laptop}{
     flex-direction: initial;
   }
 `;
