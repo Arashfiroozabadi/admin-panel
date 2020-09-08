@@ -13,7 +13,7 @@ interface PropsType extends TypographyProps {
 }
 
 export default (props: PropsType) => {
-  const { children } = props;
+  const { children, ...other } = props;
   const t = useSelector(selectors.getTheme);
 
   return (
@@ -21,7 +21,7 @@ export default (props: PropsType) => {
       style={{
         color: palette.h1[t]
       }}
-      {...props}
+      {...other}
     >
       {children}
     </StyledTypo>
