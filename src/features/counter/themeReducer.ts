@@ -1,6 +1,6 @@
 import { ThemeActionTypes, ThemeActions } from "./types";
 
-const initialState = "light";
+const initialState = "dark";
 
 
 export default (state = initialState, action: ThemeActions):string => {
