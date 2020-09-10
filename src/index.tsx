@@ -19,14 +19,12 @@ const rootReducer = combineReducers({
 });
 
 const preloadedState = {};
-
+const composeEnhancers = (window as any).__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 const store = createStore(
   rootReducer,
   preloadedState,
-  compose(
-    applyMiddleware(),
-    (window as any).__REDUX_DEVTOOLS_EXTENSION__ &&
-    (window as any).__REDUX_DEVTOOLS_EXTENSION__()
+  composeEnhancers(
+    applyMiddleware()
   )
 );
 
