@@ -51,6 +51,10 @@ export default {
     caption: {
       dark: colors.grey[600],
       light: colors.grey[700],
+    },
+    error: {
+      dark: white,
+      light: black,
     }
   },
   progress: {
@@ -86,7 +90,7 @@ export default {
     light: black
   },
   inputColor: {
-    dark: colors.grey[600],
+    dark: colors.grey[100],
     light: colors.grey[800]
   },
   icon: {
@@ -113,4 +117,8 @@ export default {
     dark: colors.grey[800],
     light: colors.grey[400]
   },
+  modal: {
+    dark: "#000000bf",
+    light: "#ffffffc2"
+  }
 };

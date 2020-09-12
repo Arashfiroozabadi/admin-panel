@@ -1,16 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { v1 as uuidv1 } from "uuid";
-import { Button } from "@material-ui/core";
+import { Button, Fade } from "@material-ui/core";
 import styled from "styled-components/macro";
+
+import gsap from "gsap";
 
 import { TaskSelector, actions } from "../../features/taskmanage";
 import { Modal } from "..";
 
+import { device } from "../../constants/breakpoint";
+
 import TaskLists from "./TaskLists";
 import Form from "./Form";
-
-
 
 // import { selectors } from "../../features/counter";
 
@@ -19,15 +21,39 @@ interface PropsType {
 }
 
 export default (props: PropsType) => {
+  const refModal = useRef(null);
   const [openModal, setOpenModal] = useState<boolean>(false);
+
+  // const t = useSelector(selectors.getTheme);
   const tasks = useSelector(TaskSelector.getTasks);
   const dispatch = useDispatch();
-  // const t = useSelector(selectors.getTheme);
+
+  const modalAnim = () => {
+    gsap.set(refModal.current, { opacity: 0, y: -100 });
+    gsap.to(refModal.current,
+      {
+        opacity: 1,
+        y: 0,
+        duration: 0.5,
+      }
+    );
+  };
+
   const handleOpenModal = () => {
     setOpenModal(!openModal);
+    modalAnim();
   };
   const handleClose = () => {
-    setOpenModal(!openModal);
+    gsap.to(refModal.current,
+      {
+        opacity: 0,
+        y: -100,
+        duration: 0.5,
+        onComplete: () => {
+          setOpenModal(!openModal);
+        }
+      }
+    );
   };
 
   useEffect(() => {
@@ -37,14 +63,7 @@ export default (props: PropsType) => {
     <Container>
       <h1>Daily Tasks</h1>
       <Button variant="contained"
-        onClick={
-          handleOpenModal
-          // () => dispatch(actions.addTask({
-          //   id: 1,
-          //   title: "new team",
-          //   caption: "do all test",
-          // }))
-        }
+        onClick={handleOpenModal}
       >
         Add New Task
       </Button>
@@ -54,12 +73,14 @@ export default (props: PropsType) => {
         ))}
       </ListItems>
       <Modal
+        closeAfterTransition
+        keepMounted
         open={openModal}
         onClose={handleClose}
       >
-        <div>
-          <Form />
-        </div>
+        <FormContainer>
+          <Form close={handleClose} ref={refModal} />
+        </FormContainer>
       </Modal>
     </Container>
   );
@@ -67,7 +88,15 @@ export default (props: PropsType) => {
 
 
 const Container = styled.div`
-  
+`;
+const FormContainer = styled.div`
+  outline: none;
+  @media ${device.mobileS}{
+    width: 100%;
+  }
+  @media ${device.laptop}{
+    width: 75%;
+  }
 `;
 const ListItems = styled.div`
   margin: 10px 0px;

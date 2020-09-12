@@ -7,3 +7,5 @@ export { default as Main } from "./Main";
 export { default as Divider } from "./Divider";
 export { default as LinearProgress } from "./LinearProgress";
 export { default as TextField } from "./TextField";
+export { default as Paper } from "./Paper";
+export { default as Button } from "./Button";

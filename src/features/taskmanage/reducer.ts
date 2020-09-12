@@ -22,10 +22,10 @@ export interface TaskStateType {
   title: string
   caption: string
   date?: {
-    date: number,
-    day: number,
-    h: number,
-    m: number
+    date: number | null,
+    day: number | null,
+    h: number | null,
+    m: number | null
   }
 }
 

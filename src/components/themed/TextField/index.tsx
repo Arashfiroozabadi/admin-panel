@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components/macro";
-import { TextField, TextFieldProps } from "@material-ui/core";
+import { TextField, TextFieldProps, TextFieldClassKey } from "@material-ui/core";
 import { useSelector } from "react-redux";
 
 import { selectors } from "../../../features/counter";
@@ -11,7 +11,6 @@ export default (props: TextFieldProps) => {
   const { ...other } = props;
   return (
     <StyledTextField
-
       {...other}
     />
   );
@@ -24,13 +23,23 @@ const StyledTextField = styled((props: TextFieldProps) => {
       classes={{
         root: "root"
       }}
-      style={{
-        backgroundColor: palette.input[t]
+      InputLabelProps={{
+        style: {
+          color: palette.inputColor[t]
+        }
+      }}
+      InputProps={{
+        style: {
+          color: palette.inputColor[t]
+        }
       }}
       {...other}
     />
   );
-})`
-
-
+})
+  `
+&.root{
+  border:1px red;
+  
+}
 `;
