@@ -30,4 +30,5 @@ export default (props: PropsType) => {
 
 const StyledTypo = styled(Typography)`
   transition: color 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  text-transform: initial;  
 `;
