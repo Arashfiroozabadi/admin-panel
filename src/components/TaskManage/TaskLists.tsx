@@ -3,15 +3,16 @@ import gsap, { TimelineMax } from "gsap";
 import styled from "styled-components/macro";
 import { useSelector } from "react-redux";
 
+import { Paper } from "@material-ui/core";
+
 import { TaskStateType } from "../../features/taskmanage/reducer";
 import { selectors } from "../../features/counter";
 import palette from "../../ui/palette";
+import { bgcTransition, colorTransition } from "../../constants/timing";
+import { Typography } from "../themed";
 
 interface PropsType {
-  data: {
-    title: string
-    caption: string
-  }
+  data: TaskStateType
 }
 
 export default (props: PropsType) => {
@@ -21,7 +22,7 @@ export default (props: PropsType) => {
   const t = useSelector(selectors.getTheme);
 
   const tIn = new TimelineMax({ paused: true });
-  const tOut = new TimelineMax({ paused: true });
+  // const tOut = new TimelineMax({ paused: true });
 
   useEffect(() => {
     const el = divEl.current;
@@ -42,25 +43,74 @@ export default (props: PropsType) => {
   return (
     <List
       ref={divEl}
+      elevation={4}
       className="task"
       style={{
         backgroundColor: palette.paper[t]
       }}
     >
-      <h1>{data.title}</h1>
-      <h6>{data.caption}</h6>
+      <Typography variant="h6">{data.title}</Typography>
+      <Typography variant="caption" gutterBottom >{data.caption}</Typography>
+      <DueDate >
+        <Wrapper>
+          <Typography variant="overline" component="span" >{data.date?.month}</Typography>
+          <Typography variant="overline" component="span">/</Typography>
+          <Typography variant="overline" component="span" >{data.date?.date}</Typography>
+          <Typography variant="overline" component="span">&nbsp;&nbsp;</Typography>
+          <Typography variant="overline" component="span">{DayConvert(data.date!.day)}</Typography>
+        </Wrapper>
+        <Wrapper>
+          <Typography variant="overline" component="span">{data.date?.h}</Typography>
+          <Typography variant="overline" component="span">:</Typography>
+          <Typography variant="overline" component="span">{data.date?.m}</Typography>
+        </Wrapper>
+      </DueDate>
     </List>
   );
 };
 
+function DayConvert(day: number | null) {
+  switch (day) {
+    case 0:
+      return "Sunday";
+    case 1:
+      return "Monday";
+    case 2:
+      return "Tuesday";
+    case 3:
+      return "Wednesday";
+    case 4:
+      return "Thursday";
+    case 5:
+      return "Friday";
+    case 6:
+      return "Saturday";
+    default:
+      return;
+  }
+}
 
-const List = styled.div`
+const List = styled(Paper)`
   opacity: 0;
-
+  transition:${colorTransition}, ${bgcTransition};
   flex: 1 1 auto;
-  margin: 2.5px;
-  padding: 2px 5px;
+  margin: 10px 5px;
+  padding: 10px;
   min-width: 20%;
   border-radius: 7px;
   background-color: #2e8b57;
+`;
+const DueDate = styled.div`
+  display: flex;
+  min-height: 25px;
+  align-items: center;
+  border-radius: 4px;
+  flex-direction: row;
+  justify-content: space-between;
+  border: 1px dotted green;
+  padding: 1px 2.5px;
+`;
+
+const Wrapper = styled.div`
+  display: flex;
 `;
