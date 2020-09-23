@@ -16,7 +16,6 @@ import MailIcon from "@material-ui/icons/Mail";
 import ChatBubbleIcon from "@material-ui/icons/ChatBubble";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 
-import Counter from "../../components/counter/Counter";
 import {
   Container, Typography, IconButton,
   Main, Divider, LinearProgress
@@ -388,9 +387,7 @@ const Home: React.FC = () => {
                   backgroundColor: palette.background[t]
                 }}
               >
-                <Box p="0px 10px"
-                  width={1}
-                >
+                <Box width={1}>
                   <TaskManage />
                 </Box>
               </StyledSection>
@@ -398,8 +395,6 @@ const Home: React.FC = () => {
           </StyledArticle>
         </Main>
         {/* Main <<==< */}
-
-        <Counter />
       </Container>
     </Fragment>
   );
