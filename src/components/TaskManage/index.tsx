@@ -1,15 +1,25 @@
 import React, { useEffect, useState, useRef } from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { v1 as uuidv1 } from "uuid";
-import { Button, Fade } from "@material-ui/core";
+import {
+  useSelector,
+  // useDispatch
+} from "react-redux";
+import {
+  Button,
+  // Fade
+} from "@material-ui/core";
 import styled from "styled-components/macro";
 
 import gsap from "gsap";
 
-import { TaskSelector, actions } from "../../features/taskmanage";
+import {
+  TaskSelector,
+  // actions
+} from "../../features/taskmanage";
 import { Modal } from "..";
 
 import { device } from "../../constants/breakpoint";
+
+import { Typography } from "../themed";
 
 import TaskLists from "./TaskLists";
 import Form from "./Form";
@@ -26,7 +36,7 @@ export default (props: PropsType) => {
 
   // const t = useSelector(selectors.getTheme);
   const tasks = useSelector(TaskSelector.getTasks);
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
   const modalAnim = () => {
     gsap.set(refModal.current, { opacity: 0, y: -100 });
@@ -61,7 +71,7 @@ export default (props: PropsType) => {
   }, []);
   return (
     <Container>
-      <h1>Daily Tasks</h1>
+      <Typography variant="h5" gutterBottom>Daily Tasks</Typography>
       <Button variant="contained"
         onClick={handleOpenModal}
       >
@@ -88,6 +98,13 @@ export default (props: PropsType) => {
 
 
 const Container = styled.div`
+  
+  @media ${device.mobileS}{
+    padding: 16px;
+  }
+  @media ${device.laptop}{
+    padding: 16px 0px;
+  }
 `;
 const FormContainer = styled.div`
   outline: none;
