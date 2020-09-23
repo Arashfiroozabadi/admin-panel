@@ -1,15 +1,18 @@
-import React, { Fragment, useEffect, useRef, useState } from "react";
-import { NavLink } from "react-router-dom";
-import { useTheme } from "@material-ui/core/styles";
-import { gsap } from "gsap";
-import { useSelector, useDispatch } from "react-redux";
+import React, {
+  Fragment, useEffect, useRef,
+} from "react";
+import { useDispatch } from "react-redux";
 import DashboardIcon from "@material-ui/icons/Dashboard";
 
 import { Button } from "@material-ui/core";
 
-import { selectors, actions } from "../../features/counter";
+import {
+  actions
+} from "../../features/counter";
 
-import { MenuButton, NavBtn } from "../themed";
+import {
+  NavBtn
+} from "../themed";
 
 import { StyledNav, NavItem } from "./StyledNav";
 
@@ -18,19 +21,19 @@ import Logo from "./Logo";
 
 
 const Nav: React.FC = () => {
-  const [openMenu, setOpenMenu] = useState(false);
-  const theme = useTheme();
+  // const [openMenu, setOpenMenu] = useState(false);
+  // const theme = useTheme();
   const dispatch = useDispatch();
-  const t = useSelector(selectors.getTheme);
+  // const t = useSelector(selectors.getTheme);
   const nav = useRef(null);
-  const handleShow = () => {
-    setOpenMenu(!openMenu);
-    gsap.to(".navlist", {
-      x: openMenu ? -500 : 0,
-      duration: 0.5,
-      lazy: false
-    });
-  };
+  // const handleShow = () => {
+  //   setOpenMenu(!openMenu);
+  //   gsap.to(".navlist", {
+  //     x: openMenu ? -500 : 0,
+  //     duration: 0.5,
+  //     lazy: false
+  //   });
+  // };
   useEffect(() => {
     // gsap.set(".navlist", { x: -500 });
     return () => { };

@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components/macro";
-import { TextField, TextFieldProps, TextFieldClassKey } from "@material-ui/core";
+import { TextField, TextFieldProps } from "@material-ui/core";
 import { useSelector } from "react-redux";
 
 import { selectors } from "../../../features/counter";
