@@ -58,6 +58,7 @@ export default forwardRef<HTMLFormElement, PropsType>((props, ref) => {
         title: formData.title,
         caption: formData.caption,
         date: {
+          month: selectedDate!.getMonth(),
           date: selectedDate!.getDate(),
           day: selectedDate!.getDay(),
           h: selectedDate!.getHours(),
@@ -85,7 +86,7 @@ export default forwardRef<HTMLFormElement, PropsType>((props, ref) => {
       }
     }
     console.log(Checker);
-    if (Checker.caption === true && Checker.title === true){
+    if (Checker.caption === true && Checker.title === true) {
       setDisable(false);
     } else {
       setDisable(true);

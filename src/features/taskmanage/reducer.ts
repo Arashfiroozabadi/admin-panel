@@ -22,6 +22,7 @@ export interface TaskStateType {
   title: string
   caption: string
   date?: {
+    month: number | null,
     date: number | null,
     day: number | null,
     h: number | null,
@@ -35,56 +36,13 @@ const initialState: TaskStateType[] = [
     title: "salam",
     caption: "world",
     date: {
-      date: 10,
-      day: 20,
+      month: 11,
+      date: 1,
+      day: 0,
       h: 15,
       m: 2
     }
   },
-  {
-    id: 2,
-    title: "hello",
-    caption: "koaja",
-    date: {
-      date: 10,
-      day: 20,
-      h: 15,
-      m: 2
-    }
-  },
-  {
-    id: 3,
-    title: "nakhir",
-    caption: "world",
-    date: {
-      date: 10,
-      day: 20,
-      h: 15,
-      m: 2
-    }
-  },
-  {
-    id: 4,
-    title: "biya",
-    caption: "world",
-    date: {
-      date: 10,
-      day: 20,
-      h: 15,
-      m: 2
-    }
-  },
-  {
-    id: 5,
-    title: "naro",
-    caption: "world",
-    date: {
-      date: 10,
-      day: 20,
-      h: 15,
-      m: 2
-    }
-  }
 ];
 
 const t = {
