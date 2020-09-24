@@ -102,7 +102,7 @@ export default forwardRef<HTMLFormElement, PropsType>((props, ref) => {
         </ImgBox>
         <MuiPickersUtilsProvider utils={DateFnsUtils}>
           <Paper modal="true">
-            <Typography variant="h2">Add new task {formData.title}</Typography>
+            <Typography variant="h2">Add new task</Typography>
             <Div>
               <TextField
                 name="title"
