@@ -10,6 +10,7 @@ export interface ADD extends TaskBaseAction {
 }
 export interface DELETE {
   type: TaskActionType.DELETE_TASK
+  id: string | number
 }
 interface TaskBaseAction {
   type: TaskActionType
@@ -61,7 +62,8 @@ export default (state = initialState, action: TaskActions) => {
     case TaskActionType.ADD_NEW_TASK:
       return [...state, action.payload];
     case TaskActionType.DELETE_TASK:
-      return [...state, t];
+      return state.filter((item) => item.id !== action.id);
+
     default:
       return state;
   }

@@ -1,15 +1,16 @@
 import React, { useEffect, useRef, useState } from "react";
 import gsap, { TimelineMax } from "gsap";
 import styled from "styled-components/macro";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 
-import { Paper } from "@material-ui/core";
+import { Button, Paper } from "@material-ui/core";
 
 import { TaskStateType } from "../../features/taskmanage/reducer";
 import { selectors } from "../../features/counter";
 import palette from "../../ui/palette";
 import { bgcTransition, colorTransition } from "../../constants/timing";
 import { Typography } from "../themed";
+import { actions } from "../../features/taskmanage";
 
 interface PropsType {
   data: TaskStateType
@@ -19,11 +20,29 @@ export default (props: PropsType) => {
   const { data } = props;
   const divEl = useRef(null);
   const [play, setPlay] = useState(true);
+
   const t = useSelector(selectors.getTheme);
+  const dispatch = useDispatch();
 
   const tIn = new TimelineMax({ paused: true });
-  // const tOut = new TimelineMax({ paused: true });
+  const tOut = new TimelineMax({ paused: true });
+  const handleDelete = (id: number | string) => {
+    const el = divEl.current;
+    tOut.fromTo(el,
+      {
+        opacity: 1
+      },
+      {
+        opacity: 0,
+        onComplete: () => {
+          dispatch(actions.deleteTask(id));
+          setPlay(false);
+        }
+      }
+    );
+    tOut.play();
 
+  };
   useEffect(() => {
     const el = divEl.current;
     gsap.set(el, { opacity: 0 });
@@ -32,7 +51,8 @@ export default (props: PropsType) => {
         opacity: 0
       },
       {
-        opacity: 1, onComplete: () => {
+        opacity: 1,
+        onComplete: () => {
           setPlay(false);
         }
       }
@@ -49,7 +69,10 @@ export default (props: PropsType) => {
         backgroundColor: palette.paper[t]
       }}
     >
-      <Typography variant="h6">{data.title}</Typography>
+      <Wrapper>
+        <Typography variant="h6">{data.title}</Typography>
+        <Button onClick={() => handleDelete(data.id)} >X</Button>
+      </Wrapper>
       <Typography variant="caption" gutterBottom >{data.caption}</Typography>
       <DueDate >
         <Wrapper>
@@ -92,7 +115,7 @@ function DayConvert(day: number | null) {
 
 const List = styled(Paper)`
   opacity: 0;
-  transition:${colorTransition}, ${bgcTransition};
+  transition:${colorTransition}, ${bgcTransition},flex 250ms linear;
   flex: 1 1 auto;
   margin: 10px 5px;
   padding: 10px;
@@ -113,4 +136,6 @@ const DueDate = styled.div`
 
 const Wrapper = styled.div`
   display: flex;
+  align-items: center;
+  justify-content: space-between;
 `;
