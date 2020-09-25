@@ -120,5 +120,17 @@ export default {
   modal: {
     dark: "#000000bf",
     light: "#ffffffc2"
+  },
+  button: {
+    delete: {
+      bgc: {
+        dark: colors.red["A400"],
+        light: colors.red[900]
+      },
+      color: {
+        dark: white,
+        light: white
+      }
+    }
   }
 };

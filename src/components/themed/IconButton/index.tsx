@@ -9,18 +9,26 @@ import palette from "../../../ui/palette";
 import { StyledIconButton } from "./StyledIconBtn";
 
 interface PropsType extends IconButtonProps {
-
+  btntype?: "delete"
 }
 
 export default (props: PropsType) => {
   const t = useSelector(selectors.getTheme);
-  const { children } = props;
+  const { children, btntype } = props;
   return (
     <StyledIconButton
-      style={{
-        backgroundColor: palette.icon.bgc[t],
-        color: palette.icon.color[t]
-      }}
+      style={
+        btntype === "delete" ?
+          {
+            backgroundColor: palette.button.delete.bgc[t],
+            color: palette.button.delete.color[t]
+          }
+          :
+          {
+            backgroundColor: palette.icon.bgc[t],
+            color: palette.icon.color[t]
+          }
+      }
       {...props}
     >
       {children}
