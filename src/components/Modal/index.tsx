@@ -36,6 +36,7 @@ const StyledModal = styled(Modal)`
   display: flex;
   align-items: center;
   justify-content: center;
+  backdrop-filter: blur(8px);
   @media ${device.mobileS}{
     padding:1em;
   }
