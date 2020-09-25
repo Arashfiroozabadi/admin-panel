@@ -2,14 +2,14 @@ import React, { useEffect, useRef, useState } from "react";
 import gsap, { TimelineMax } from "gsap";
 import styled from "styled-components/macro";
 import { useSelector, useDispatch } from "react-redux";
-
-import { Button, Paper } from "@material-ui/core";
+import { Paper } from "@material-ui/core";
+import DeleteIcon from "@material-ui/icons/Delete";
 
 import { TaskStateType } from "../../features/taskmanage/reducer";
 import { selectors } from "../../features/counter";
 import palette from "../../ui/palette";
 import { bgcTransition, colorTransition } from "../../constants/timing";
-import { Typography } from "../themed";
+import { IconButton, Typography } from "../themed";
 import { actions } from "../../features/taskmanage";
 
 interface PropsType {
@@ -71,7 +71,9 @@ export default (props: PropsType) => {
     >
       <Wrapper>
         <Typography variant="h6">{data.title}</Typography>
-        <Button onClick={() => handleDelete(data.id)} >X</Button>
+        <DeleteBtn btntype="delete" onClick={() => handleDelete(data.id)} >
+          <DeleteIcon fontSize="small" />
+        </DeleteBtn>
       </Wrapper>
       <Typography variant="caption" gutterBottom >{data.caption}</Typography>
       <DueDate >
@@ -138,4 +140,12 @@ const Wrapper = styled.div`
   display: flex;
   align-items: center;
   justify-content: space-between;
+`;
+
+const DeleteBtn = styled(IconButton)`
+  padding: 3px;
+  :hover {
+    background-color:#980824!important;
+    color: #888888!important;
+  }
 `;
