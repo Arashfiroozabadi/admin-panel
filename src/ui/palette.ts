@@ -132,5 +132,15 @@ export default {
         light: white
       }
     }
+  },
+  disable: {
+    bgc: {
+      dark: colors.grey["A700"],
+      light: colors.grey[300]
+    },
+    color: {
+      dark: colors.grey["A400"],
+      light: colors.grey[400],
+    }
   }
 };
