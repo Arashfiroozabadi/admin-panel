@@ -5,7 +5,10 @@ import { v1 as uuidv1 } from "uuid";
 import DateFnsUtils from "@date-io/date-fns";
 import { useDispatch, useSelector } from "react-redux";
 
-import { Typography, TextField, Paper, Button } from "../themed";
+import {
+  Typography, TextField, Paper,
+  Button
+} from "../themed";
 // import { selectors } from "../../features/counter";
 
 import checklist from "../../img/check_list.webp";
@@ -18,7 +21,6 @@ interface PropsType {
   close: () => void
 }
 export default forwardRef<HTMLFormElement, PropsType>((props, ref) => {
-  const [disable, setDisable] = useState(true);
   const [formData, setFormData] = useState({ title: "", caption: "" });
   const [Checker, setChecker] = useState({ title: false, caption: false });
   const [selectedDate, setSelectedDate] = React.useState<Date | null>(
@@ -33,26 +35,12 @@ export default forwardRef<HTMLFormElement, PropsType>((props, ref) => {
   };
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
+    setChecker({ ...Checker, [e.target.name]: e.target.value.length >= 2 ? true : false });
   };
-
-  // const handleAccept = (data: Date | null) => {
-  //   dispatch(actions.addTask({
-  //     id: uuidv1(),
-  //     title: formData.title,
-  //     caption: formData.caption,
-  //     date: {
-  //       date: selectedDate!.getDate(),
-  //       day: selectedDate!.getDay(),
-  //       h: selectedDate!.getHours(),
-  //       m: selectedDate!.getMinutes()
-  //     }
-  //   }));
-  // };
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    if (!disable) {
-      props.close();
+    if (Checker.caption === true || Checker.title === true) {
       dispatch(actions.addTask({
         id: uuidv1(),
         title: formData.title,
@@ -66,88 +54,68 @@ export default forwardRef<HTMLFormElement, PropsType>((props, ref) => {
         }
       }));
       setFormData({ title: "", caption: "" });
+      setChecker({ title: false, caption: false });
+      props.close();
     }
   };
-
-  const handleCheck = (e: any) => {
-
-    if (e.target.name === "title") {
-      if (e.target.value.length >= 2) {
-        setChecker({ ...Checker, title: true });
-      } else {
-        setChecker({ ...Checker, title: false });
-      }
-    }
-    if (e.target.name === "caption") {
-      if (e.target.value.length >= 2) {
-        setChecker({ ...Checker, caption: true });
-      } else {
-        setChecker({ ...Checker, caption: false });
-      }
-    }
-    console.log(Checker);
-    if (Checker.caption === true && Checker.title === true) {
-      setDisable(false);
-    } else {
-      setDisable(true);
-    }
-  };
-
 
   return (
-    <Form onChange={(e) => handleCheck(e)} ref={ref} onSubmit={(e) => handleSubmit(e)}>
+    <Form ref={ref} onSubmit={(e) => handleSubmit(e)}>
       <Paper type="container">
-        <ImgBox>
+          <ImgBox>
           <Img src={checklist} alt="" />
         </ImgBox>
-        <MuiPickersUtilsProvider utils={DateFnsUtils}>
-          <Paper modal="true">
-            <Typography variant="h2">Add new task</Typography>
-            <Div>
-              <TextField
-                name="title"
-                label="Title"
-                color="secondary"
-                value={formData.title}
-                variant="outlined"
-                onChange={handleChange}
-                placeholder="Title"
-                autoComplete="off"
-              />
-              <TextField
-                name="caption"
-                label="Caption"
-                color="secondary"
-                value={formData.caption}
-                variant="outlined"
-                onChange={handleChange}
-                placeholder="Caption"
-                autoComplete="off"
-              />
-              <DateTimePicker
-                className="root"
-                inputVariant="outlined"
-                value={selectedDate}
-                disablePast
-                InputProps={{
-                  style: {
-                    color: palette.inputColor[t]
-                  }
-                }}
-                ampm={false}
-                onChange={handleDateChange}
-                label="With Today Button"
-                showTodayButton
-              // onAccept={(data) => handleAccept(data)}
-              />
-              <Button variant="outlined" disabled={disable} type="submit">
-                Add
+      <MuiPickersUtilsProvider utils={DateFnsUtils}>
+        <Paper modal="true">
+          <Typography variant="h2">Add new task</Typography>
+          <Div>
+            <TextField
+              name="title"
+              label="Title"
+              color="secondary"
+              value={formData.title}
+              variant="outlined"
+              onChange={handleChange}
+              placeholder="Title"
+              autoComplete="off"
+            />
+            <TextField
+              name="caption"
+              label="Caption"
+              color="secondary"
+              value={formData.caption}
+              variant="outlined"
+              onChange={handleChange}
+              placeholder="Caption"
+              autoComplete="off"
+            />
+            <DateTimePicker
+              className="root"
+              inputVariant="outlined"
+              value={selectedDate}
+              disablePast
+              InputProps={{
+                style: {
+                  color: palette.inputColor[t]
+                }
+              }}
+              ampm={false}
+              onChange={handleDateChange}
+              label="With Today Button"
+              showTodayButton
+            // onAccept={(data) => handleAccept(data)}
+            />
+            <Button variant="outlined"
+              type="submit"
+              disabled={Checker.caption === false || Checker.title === false}
+            >
+              Add
               </Button>
-            </Div>
-          </Paper>
-        </MuiPickersUtilsProvider>
+          </Div>
+        </Paper>
+      </MuiPickersUtilsProvider>
       </Paper>
-    </Form>
+    </Form >
   );
 });
 
