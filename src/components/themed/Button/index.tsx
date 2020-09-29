@@ -16,9 +16,10 @@ export default styled((props: PropsTypes) => {
   return (
     <Button
       style={{
-        color: disabled ? palette.text.error[t] : palette.text[t],
-        backgroundColor: disabled ? palette.error[t] : palette.secondary[t]
+        color: disabled ? palette.disable.color[t] : palette.text[t],
+        backgroundColor: disabled ? palette.disable.bgc[t] : palette.secondary[t]
       }}
+      disabled={disabled}
       {...other}
     />
   );
