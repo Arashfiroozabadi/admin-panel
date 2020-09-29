@@ -4,6 +4,7 @@ import styled from "styled-components/macro";
 import { useSelector, useDispatch } from "react-redux";
 import { Paper } from "@material-ui/core";
 import DeleteIcon from "@material-ui/icons/Delete";
+import Popup from "react-popup";
 
 import { TaskStateType } from "../../features/taskmanage/reducer";
 import { selectors } from "../../features/counter";
@@ -26,22 +27,54 @@ export default (props: PropsType) => {
 
   const tIn = new TimelineMax({ paused: true });
   const tOut = new TimelineMax({ paused: true });
-  const handleDelete = (id: number | string) => {
-    const el = divEl.current;
-    tOut.fromTo(el,
-      {
-        opacity: 1
-      },
-      {
-        opacity: 0,
-        onComplete: () => {
-          dispatch(actions.deleteTask(id));
-          setPlay(false);
-        }
-      }
-    );
-    tOut.play();
 
+  const handleDelete = (id: number | string, task: string) => {
+    Popup.registerPlugin("popover", function (this: typeof Popup, content: any, target: any) {
+      this.create({
+        content: content,
+        className: "popover",
+        noOverlay: true,
+        position: function (box: any) {
+          const bodyRect = document.body.getBoundingClientRect();
+          const btnRect = target.getBoundingClientRect();
+          const btnOffsetTop = btnRect.top - bodyRect.top;
+          const btnOffsetLeft = btnRect.left - bodyRect.left;
+          const scroll = document.documentElement.scrollTop || document.body.scrollTop;
+
+          box.style.top = btnRect.top <= 200 ? "10px" :
+            (btnOffsetTop - box.offsetHeight - 10) - scroll + "px";
+          box.style.left = (btnOffsetLeft + (target.offsetWidth / 2) - (box.offsetWidth / 2)) + "px";
+          box.style.margin = 0;
+          box.style.opacity = 1;
+        },
+        buttons: {
+          left: ["cancel"],
+          right: [{
+            text: "Yes",
+            key: "enter",
+            action: () => {
+              const el = divEl.current;
+              tOut.fromTo(el,
+                {
+                  opacity: 1
+                },
+                {
+                  opacity: 0,
+                  onComplete: () => {
+                    dispatch(actions.deleteTask(id));
+                    Popup.close();
+                    setPlay(false);
+                  }
+                }
+              );
+              tOut.play();
+            }
+          }]
+        }
+      }, true);
+    });
+
+    Popup.plugins().popover(<h1>Delete this task "{task}" ?</h1>, divEl.current);
   };
   useEffect(() => {
     const el = divEl.current;
@@ -71,7 +104,8 @@ export default (props: PropsType) => {
     >
       <Wrapper>
         <Typography variant="h6">{data.title}</Typography>
-        <DeleteBtn btntype="delete" onClick={() => handleDelete(data.id)} >
+        <Popup />
+        <DeleteBtn btntype="delete" onClick={() => handleDelete(data.id, data.title)} >
           <DeleteIcon fontSize="small" />
         </DeleteBtn>
       </Wrapper>

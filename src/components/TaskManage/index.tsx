@@ -8,7 +8,6 @@ import {
   // Fade
 } from "@material-ui/core";
 import styled from "styled-components/macro";
-
 import gsap from "gsap";
 
 import {

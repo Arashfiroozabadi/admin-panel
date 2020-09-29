@@ -46,17 +46,6 @@ const initialState: TaskStateType[] = [
   },
 ];
 
-const t = {
-  id: 4,
-  title: "cheragh",
-  caption: "world",
-  date: {
-    date: 10,
-    day: 20,
-    h: 15,
-    m: 2
-  }
-};
 export default (state = initialState, action: TaskActions) => {
   switch (action.type) {
     case TaskActionType.ADD_NEW_TASK:
