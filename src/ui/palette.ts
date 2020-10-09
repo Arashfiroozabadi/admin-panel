@@ -145,11 +145,11 @@ export default {
     close: {
       bgc: {
         dark: colors.grey[800],
-        light: black
+        light: "transparent"
       },
       color: {
         dark: white,
-        light: white
+        light: colors.grey[800],
       }
     }
   },
