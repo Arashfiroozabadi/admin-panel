@@ -9,7 +9,7 @@ import palette from "../../../ui/palette";
 import { StyledIconButton } from "./StyledIconBtn";
 
 interface PropsType extends IconButtonProps {
-  btntype?: "delete" | "navMenu" | "close"
+  btntype?: "delete" | "navMenu" | "close" | "theme"
 }
 
 export default (props: PropsType) => {
@@ -34,11 +34,15 @@ export default (props: PropsType) => {
                 color: palette.button.close.color[t],
                 padding: 7
               } :
-
-              {
-                backgroundColor: palette.icon.bgc[t],
-                color: palette.icon.color[t]
-              }
+              btntype === "theme" ?
+                {
+                  backgroundColor: palette.theme.bgc[t],
+                  color: palette.theme.color[t],
+                } :
+                {
+                  backgroundColor: palette.icon.bgc[t],
+                  color: palette.icon.color[t]
+                }
       }
       {...other}
     >
