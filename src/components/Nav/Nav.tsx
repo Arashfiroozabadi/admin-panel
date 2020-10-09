@@ -55,10 +55,6 @@ const Nav: React.FC = () => {
   }, []);
   useEffect(() => {
     const width = gsap.getProperty("body", "width");
-    if (width > 300 && width < 700) {
-      console.log(width);
-    }
-
     if (openMenu) {
       if (width > 300 && width < 770) {
         timeLine
