@@ -1,21 +1,23 @@
 import React, {
   Fragment, useEffect, useRef, useState,
 } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import DashboardIcon from "@material-ui/icons/Dashboard";
-import { GitHub } from "@material-ui/icons";
+import { Brightness2, GitHub } from "@material-ui/icons";
 import gsap, { TimelineMax } from "gsap";
-import { Button } from "@material-ui/core";
+import { Box } from "@material-ui/core";
+import { WbSunny } from "@material-ui/icons";
 
 import {
-  actions
+  actions, selectors
 } from "../../features/counter";
 
 import {
+  IconButton,
   NavBtn
 } from "../themed";
 
-import { StyledNav, NavItem } from "./StyledNav";
+import { StyledNav } from "./StyledNav";
 
 import "./nav.scss";
 import { NavHeader } from "./Header";
@@ -25,9 +27,8 @@ import Wrapper from "./Wrapper";
 
 const Nav: React.FC = () => {
   const [openMenu, setOpenMenu] = useState(true);
-  // const theme = useTheme();
   const dispatch = useDispatch();
-  // const t = useSelector(selectors.getTheme);
+  const t = useSelector(selectors.getTheme);
   const nav = useRef(null);
   const div = useRef(null);
 
@@ -142,17 +143,17 @@ const Nav: React.FC = () => {
             startIcon={<GitHub />}
           />
         </Wrapper>
-        <NavItem button >
-          <div>
-            <Button
-              onClick={() =>
-                dispatch(actions.changeTheme())
-              }
-            >
-              change Theme
-          </Button>
-          </div>
-        </NavItem>
+        <Box padding="10px" display="flex" alignItems="center">
+          <IconButton
+            btntype="theme"
+            size="small"
+            onClick={() =>
+              dispatch(actions.changeTheme())
+            }
+          >
+            {t === "dark" ? <WbSunny /> : <Brightness2 />}
+          </IconButton>
+        </Box>
       </StyledNav>
     </Fragment>
   );
