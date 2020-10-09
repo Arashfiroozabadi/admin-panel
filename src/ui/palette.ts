@@ -153,6 +153,16 @@ export default {
       }
     }
   },
+  theme: {
+    bgc: {
+      dark: colors.lightBlue[600],
+      light: colors.indigo[900]
+    },
+    color: {
+      dark: colors.yellow[600],
+      light: colors.grey[400]
+    }
+  },
   disable: {
     bgc: {
       dark: colors.grey["A700"],
