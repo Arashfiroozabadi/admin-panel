@@ -59,7 +59,7 @@
     "eject": "react-scripts eject",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx ./",
     "fix": "eslint --ext .js,.jsx,.ts,.tsx  --fix ./",
-    "deploy":"cd build/ && echo arash-firoozabadi.surge.sh > CNAME && surge"
+    "deploy":"npm run build && cd build/ && echo arash-firoozabadi.surge.sh > CNAME && surge"
   },
   "eslintConfig": {
     "extends": "react-app"
