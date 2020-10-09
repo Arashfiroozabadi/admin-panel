@@ -4,10 +4,12 @@ import { DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import { v1 as uuidv1 } from "uuid";
 import DateFnsUtils from "@date-io/date-fns";
 import { useDispatch, useSelector } from "react-redux";
+import { Box } from "@material-ui/core";
+import { Close } from "@material-ui/icons";
 
 import {
   Typography, TextField, Paper,
-  Button
+  Button, IconButton
 } from "../themed";
 // import { selectors } from "../../features/counter";
 
@@ -59,61 +61,76 @@ export default forwardRef<HTMLFormElement, PropsType>((props, ref) => {
     }
   };
 
+  const handleClose = () => {
+    props.close();
+  };
+
   return (
     <Form ref={ref} onSubmit={(e) => handleSubmit(e)}>
       <Paper type="container">
-          <ImgBox>
+        <ImgBox>
           <Img src={checklist} alt="" />
         </ImgBox>
-      <MuiPickersUtilsProvider utils={DateFnsUtils}>
-        <Paper modal="true">
-          <Typography variant="h2">Add new task</Typography>
-          <Div>
-            <TextField
-              name="title"
-              label="Title"
-              color="secondary"
-              value={formData.title}
-              variant="outlined"
-              onChange={handleChange}
-              placeholder="Title"
-              autoComplete="off"
-            />
-            <TextField
-              name="caption"
-              label="Caption"
-              color="secondary"
-              value={formData.caption}
-              variant="outlined"
-              onChange={handleChange}
-              placeholder="Caption"
-              autoComplete="off"
-            />
-            <DateTimePicker
-              className="root"
-              inputVariant="outlined"
-              value={selectedDate}
-              disablePast
-              InputProps={{
-                style: {
-                  color: palette.inputColor[t]
-                }
-              }}
-              ampm={false}
-              onChange={handleDateChange}
-              label="With Today Button"
-              showTodayButton
-            // onAccept={(data) => handleAccept(data)}
-            />
-            <Button variant="outlined"
-              type="submit"
-              disabled={Checker.caption === false || Checker.title === false}
-            >
-              Add
+        <MuiPickersUtilsProvider utils={DateFnsUtils}>
+          <Paper modal="true">
+            <Box display="flex" justifyContent="space-between">
+              <Typography variant="h2">Add new task</Typography>
+              <IconButton
+                size="medium" 
+                btntype="close"
+                aria-label="close" 
+                onClick={handleClose}
+              >
+                <Close fontSize="small" />
+              </IconButton>
+            </Box>
+
+            <Div>
+              <TextField
+                name="title"
+                label="Title"
+                color="secondary"
+                value={formData.title}
+                variant="outlined"
+                onChange={handleChange}
+                placeholder="Title"
+                autoComplete="off"
+              />
+              <TextField
+                name="caption"
+                label="Caption"
+                color="secondary"
+                value={formData.caption}
+                variant="outlined"
+                onChange={handleChange}
+                placeholder="Caption"
+                autoComplete="off"
+              />
+              <DateTimePicker
+                className="root"
+                inputVariant="outlined"
+                value={selectedDate}
+                disablePast
+                InputProps={{
+                  style: {
+                    color: palette.inputColor[t]
+                  }
+                }}
+                ampm={false}
+                onChange={handleDateChange}
+                label="With Today Button"
+                showTodayButton
+              // onAccept={(data) => handleAccept(data)}
+              />
+              <Button variant="outlined"
+                type="submit"
+                disabled={Checker.caption === false || Checker.title === false}
+              >
+                Add
               </Button>
-          </Div>
-        </Paper>
-      </MuiPickersUtilsProvider>
+            </Div>
+          </Paper>
+        </MuiPickersUtilsProvider>
       </Paper>
     </Form >
   );
