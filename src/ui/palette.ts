@@ -141,6 +141,16 @@ export default {
         dark: white,
         light: white
       }
+    },
+    close: {
+      bgc: {
+        dark: colors.grey[800],
+        light: black
+      },
+      color: {
+        dark: white,
+        light: white
+      }
     }
   },
   disable: {
