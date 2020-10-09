@@ -7,7 +7,7 @@ import { colorTransition, bgcTransition } from "../../../constants/timing";
 
 const StyledIconButton = styled(IconButton)`
   padding: 8px;
-  transition: ${colorTransition},${bgcTransition}
+  transition: ${colorTransition},${bgcTransition}!important;
 `;
 export {
   StyledIconButton

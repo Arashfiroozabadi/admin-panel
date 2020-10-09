@@ -131,6 +131,16 @@ export default {
         dark: white,
         light: white
       }
+    },
+    navMenu: {
+      bgc: {
+        dark: "#171819",
+        light: black
+      },
+      color: {
+        dark: white,
+        light: white
+      }
     }
   },
   disable: {

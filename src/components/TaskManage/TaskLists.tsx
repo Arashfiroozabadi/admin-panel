@@ -105,7 +105,7 @@ export default (props: PropsType) => {
       <Wrapper>
         <Typography variant="h6">{data.title}</Typography>
         <Popup />
-        <DeleteBtn btntype="delete" onClick={() => handleDelete(data.id, data.title)} >
+        <DeleteBtn size="small" btntype="delete" onClick={() => handleDelete(data.id, data.title)} >
           <DeleteIcon fontSize="small" />
         </DeleteBtn>
       </Wrapper>
@@ -151,7 +151,7 @@ function DayConvert(day: number | null) {
 
 const List = styled(Paper)`
   opacity: 0;
-  transition:${colorTransition}, ${bgcTransition},flex 250ms linear;
+  transition:${colorTransition}, ${bgcTransition},flex 250ms linear!important;
   flex: 1 1 auto;
   margin: 10px 5px;
   padding: 10px;
@@ -179,6 +179,10 @@ const Wrapper = styled.div`
 const DeleteBtn = styled(IconButton)`
   padding: 3px;
   :hover {
+    background-color:#980824!important;
+    color: #888888!important;
+  }
+  :focus{
     background-color:#980824!important;
     color: #888888!important;
   }

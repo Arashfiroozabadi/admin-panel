@@ -9,12 +9,12 @@ import palette from "../../../ui/palette";
 import { StyledIconButton } from "./StyledIconBtn";
 
 interface PropsType extends IconButtonProps {
-  btntype?: "delete"
+  btntype?: "delete" | "navMenu"
 }
 
 export default (props: PropsType) => {
   const t = useSelector(selectors.getTheme);
-  const { children, btntype } = props;
+  const { children, btntype, ...other } = props;
   return (
     <StyledIconButton
       style={
@@ -22,14 +22,18 @@ export default (props: PropsType) => {
           {
             backgroundColor: palette.button.delete.bgc[t],
             color: palette.button.delete.color[t]
-          }
-          :
-          {
-            backgroundColor: palette.icon.bgc[t],
-            color: palette.icon.color[t]
-          }
+          } :
+          btntype === "navMenu" ?
+            {
+              backgroundColor: palette.button.navMenu.bgc[t],
+              color: palette.button.delete.color[t]
+            } :
+            {
+              backgroundColor: palette.icon.bgc[t],
+              color: palette.icon.color[t]
+            }
       }
-      {...props}
+      {...other}
     >
       {children}
     </StyledIconButton>
