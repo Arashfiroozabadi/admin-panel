@@ -7,13 +7,14 @@ import { useSelector } from "react-redux";
 import { selectors } from "../../features/counter";
 import palette from "../../ui/palette";
 
+import { bgcTransition } from "../../constants/timing";
+
 import reactLogo from "./logo192.png";
 const Logo = styled(Paper)`
   display:flex;
   justify-content: center;
   padding: 5px;
   margin: 5px;
-  transition: background-color 0.5s cubic-bezier(0.4,0,0.2,1) 0s!important;
 `;
 
 export default () => {
@@ -21,7 +22,8 @@ export default () => {
   return (
     <Logo
       style={{
-        backgroundColor: palette.background[t]
+        backgroundColor: palette.background[t],
+        transition: bgcTransition,
       }}
       elevation={0}
     >
