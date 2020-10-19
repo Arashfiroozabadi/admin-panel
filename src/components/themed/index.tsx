@@ -9,3 +9,6 @@ export { default as LinearProgress } from "./LinearProgress";
 export { default as TextField } from "./TextField";
 export { default as Paper } from "./Paper";
 export { default as Button } from "./Button";
+export { default as Loading } from "./Loading";
+export { default as Tooltip } from "./Tooltip";
+
