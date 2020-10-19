@@ -1,6 +1,7 @@
 import React from "react";
 import { render } from "react-dom";
 import { combineReducers, createStore, applyMiddleware, compose } from "redux";
+import { ApolloClient, ApolloProvider } from "@apollo/client";
 
 import { Provider } from "react-redux";
 
@@ -11,6 +12,16 @@ import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 
 import "./index.scss";
+import { cache } from "./cache";
+
+export const client = new ApolloClient({
+  cache,
+  uri: "https://api.github.com/graphql",
+  headers: {
+    authorization: "Bearer ***"
+  },
+  connectToDevTools: true
+});
 
 const rootReducer = combineReducers({
   count: CounterReducer,
@@ -29,8 +40,11 @@ const store = createStore(
 );
 
 render(
+
   <Provider store={store}>
-    <App />
+    <ApolloProvider client={client}>
+      <App />
+    </ApolloProvider>
   </Provider>,
   document.getElementById("root")
 );
