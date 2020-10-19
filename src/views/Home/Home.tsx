@@ -1,41 +1,118 @@
-import React, { Fragment, useState } from "react";
-import { useSelector } from "react-redux";
+import React, {
+  useRef,
+  Fragment,
+  useState,
+} from "react";
+
 import styled from "styled-components/macro";
 import Calendar from "react-calendar";
+
 import {
-  AppBar, Toolbar, InputAdornment,
-  InputBase, Avatar, Box, makeStyles,
-  Theme, createStyles
+  useSelector
+} from "react-redux";
+import {
+  useQuery
+} from "@apollo/client";
+import {
+  loader
+} from "graphql.macro";
+
+// Material-Ui Components
+import {
+  Box,
+  Theme,
+  AppBar,
+  Avatar,
+  Toolbar,
+  InputBase,
+  makeStyles,
+  createStyles,
+  InputAdornment,
 } from "@material-ui/core";
 import AvatarGroup from "@material-ui/lab/AvatarGroup";
-import SearchIcon from "@material-ui/icons/Search";
+
+// Icons
 import AddIcon from "@material-ui/icons/Add";
-import NotificationsNoneIcon from "@material-ui/icons/NotificationsNone";
 import CallIcon from "@material-ui/icons/Call";
 import MailIcon from "@material-ui/icons/Mail";
+import SearchIcon from "@material-ui/icons/Search";
 import ChatBubbleIcon from "@material-ui/icons/ChatBubble";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
+import NotificationsNoneIcon from "@material-ui/icons/NotificationsNone";
+
+// Local Components
+import {
+  ImgLoader,
+  TaskManage,
+} from "../../components";
+import {
+  Main,
+  Tooltip,
+  Divider,
+  Loading,
+  Container,
+  IconButton,
+  Typography,
+  LinearProgress,
+} from "../../components/themed";
 
 import {
-  Container, Typography, IconButton,
-  Main, Divider, LinearProgress
-} from "../../components/themed";
-import { selectors } from "../../features/counter";
+  device
+} from "../../constants/breakpoint";
+import {
+  selectors
+} from "../../features/counter";
+import {
+  bgcTransition,
+  colorTransition,
+} from "../../constants/timing";
+
 import palette from "../../ui/palette";
-import { device } from "../../constants/breakpoint";
-import { colorTransition, bgcTransition } from "../../constants/timing";
 
-import "react-calendar/dist/Calendar.css";
-import "./index.scss";
-
-import { TaskManage } from "../../components";
-
+import User from "./User";
 import imgOne from "./imgOne.webp";
 
+import "./index.scss";
+import "react-calendar/dist/Calendar.css";
+
+const GET_USER = loader("./user.graphql");
+
+
 const Home: React.FC = () => {
-  const t = useSelector(selectors.getTheme);
   const classes = useStyles();
+  // Refs
+  const input = useRef<any>(null);
+
+  // States
   const [clenValue, clenChange] = useState(new Date());
+  const [user, setUser] = useState<string | null>("arashfiroozabadi");
+
+  // Graphql Querys
+  const { loading, error, data } = useQuery(GET_USER, {
+    variables: {
+      user
+    },
+    notifyOnNetworkStatusChange: true,
+    // pollInterval: 500,
+  });
+
+  // Redux
+  const t = useSelector(selectors.getTheme);
+
+  // Handlers
+  const handleGQL = () => {
+    const userName = prompt("Please enter your github username", "arashfiroozabadi");
+    if (userName) {
+      if (userName.includes(" ")) {
+        alert("you can't use space in this field");
+      } else {
+        setUser(userName);
+      }
+    }
+  };
+
+  // Element Body
+  if (error) return <p>error {error.message}</p>;
   return (
     <Fragment>
       <Container maxWidth="lg">
@@ -47,6 +124,10 @@ const Home: React.FC = () => {
         >
           <StyledToolbar>
             <StyledSearch
+              inputRef={input}
+              // onChange={() => {
+              //   addNewRepo({ variables: { name: "testOK", desc: "in ham okye agha" } });
+              // }}
               style={{
                 color: palette.inputColor[t],
                 backgroundColor: palette.background[t]
@@ -64,35 +145,14 @@ const Home: React.FC = () => {
               >
                 <NotificationsNoneIcon />
               </StyledBox>
-              <AvatarGroup max={5} spacing="small">
-                <StyledAvatar
-                  style={{
-                    borderColor: palette.border[t],
-                  }}
-                  alt="Travis Howard" src="https://material-ui.com/static/images/avatar/2.jpg"
-                />
-                <StyledAvatar
-                  style={{
-                    borderColor: palette.border[t],
-                  }}
-                  alt="Cindy Baker" src="https://material-ui.com/static/images/avatar/3.jpg"
-                />
-                <StyledAvatar
-                  style={{
-                    borderColor: palette.border[t],
-                  }}
-                  alt="Agnes Walker" src="https://material-ui.com/static/images/avatar/4.jpg"
-                />
-                <StyledAvatar
-                  style={{
-                    borderColor: palette.border[t],
-                  }}
-                  alt="Remy Sharp" src="https://material-ui.com/static/images/avatar/5.jpg"
-                />
-              </AvatarGroup>
-              <IconButton>
-                <StyledAddIcon />
-              </IconButton>
+              <User username={user} />
+              <Tooltip title="Add your github username" >
+                <IconButton
+                  onClick={handleGQL}
+                >
+                  <StyledAddIcon />
+                </IconButton>
+              </Tooltip>
             </StyledDiv>
           </StyledToolbar>
         </StyledAppBar>
@@ -110,7 +170,11 @@ const Home: React.FC = () => {
               >
                 <div className={classes.block} >
                   <Typography gutterBottom variant="h5" >
-                    Welcome John
+                    {loading ?
+                      <Loading type="cylon" />
+                      :
+                      `Welcome ${data.user.name}`
+                    }
                   </Typography>
                   <Typography
                     style={{
@@ -143,27 +207,41 @@ const Home: React.FC = () => {
                 >
                   <StyledCard>
                     <Box p="0px 25px" display="flex" alignItems="center" flexDirection="column" >
-                      <StyledAvatar
-                        style={{
-                          width: 45,
-                          height: 45,
-                          marginBottom: 10,
-                          borderColor: palette.border[t],
-                        }}
-                        alt="Remy Sharp"
-                        src="https://material-ui.com/static/images/avatar/1.jpg"
-                      />
+                      {loading ?
+                        <Loading
+                          type="spinningBubbles"
+                          height={40}
+                          width={40}
+                        />
+                        :
+                        <ImgLoader
+                          alt="Travis Howard"
+                          height={40}
+                          width={40}
+                          url={data.user.avatarUrl}
+                        />
+
+                      }
                       <Typography variant="h5">
-                        John Doe
+                        {loading ?
+                          <Loading width={40} height={40} type="bubbles" />
+                          :
+                          data.user.name
+                        }
                       </Typography>
                       <Typography
                         style={{
                           color: palette.text.caption[t]
                         }}
+                        component="div"
                         variant="body2"
                         gutterBottom
                       >
-                        Sr. UI/UX Designer
+                        {loading ?
+                          <Loading width={40} height={40} type="bubbles" />
+                          :
+                          data.user.bio
+                        }
                       </Typography>
                       <Box
                         display="flex"
@@ -210,7 +288,11 @@ const Home: React.FC = () => {
                           color: palette.text.caption[t]
                         }}
                       >
-                        Google
+                        {loading ?
+                          "Loading..." :
+                          data.user.company === null
+                            ? "Google" : data.user.company
+                        }
                       </Typography>
                     </Box>
                     <Box display="flex" width={1} flexGrow={1}
@@ -224,21 +306,21 @@ const Home: React.FC = () => {
                           color: palette.text.caption[t]
                         }}
                       >
-                        20/04/2019
+                        {loading ? "Loading..." : new Date(data.user.createdAt).toLocaleDateString()}
                       </Typography>
                     </Box>
                     <Box display="flex" width={1} flexGrow={1}
                       justifyContent="space-between" alignItems="center"
                     >
                       <Typography variant="body2">
-                        Tasks
+                        Rrepositories
                       </Typography>
                       <Typography variant="caption"
                         style={{
                           color: palette.text.caption[t]
                         }}
                       >
-                        67 Active
+                        {loading ? "Loading..." : data.user.repositories.totalCount}
                       </Typography>
                     </Box>
                   </StyledCard>
