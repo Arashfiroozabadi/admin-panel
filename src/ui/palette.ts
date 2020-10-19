@@ -111,7 +111,27 @@ export default {
         dark: colors.grey[600],
         light: colors.grey[200]
       }
-    }
+    },
+    nav: {
+      color: {
+        dark: white,
+        light: colors.grey[900],
+      },
+      bgc: {
+        dark: colors.lightBlue[600],
+        light: colors.lightBlue[100]
+      },
+      active: {
+        color: {
+          dark: white,
+          light: white
+        },
+        bgc: {
+          dark: colors.lightBlue[900],
+          light: colors.lightBlue["A700"]
+        },
+      }
+    },
   },
   cDivider: {
     dark: colors.grey[800],
@@ -171,6 +191,16 @@ export default {
     color: {
       dark: colors.grey["A400"],
       light: colors.grey[400],
+    }
+  },
+  loading: {
+    bgc: {
+      dark: colors.grey[50],
+      light: colors.grey[900]
+    },
+    color: {
+      dark: colors.grey[50],
+      light: colors.grey[900]
     }
   }
 };
