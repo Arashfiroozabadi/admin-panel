@@ -1,0 +1,20 @@
+query User($user: String!) {
+  user(login: $user) {
+    ...UserInfo
+  }
+}
+
+fragment UserInfo on User {
+  avatarUrl
+  id
+  login
+  name
+  email
+  location
+  bio
+  company
+  createdAt
+  repositories {
+    totalCount
+  }
+}
