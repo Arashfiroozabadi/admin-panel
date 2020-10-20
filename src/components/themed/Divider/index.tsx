@@ -11,7 +11,6 @@ import { bgcTransition } from "../../../constants/timing";
 
 const StyledDivider = styled(Divider)`
   width: 100%;
-  margin-bottom: 10px;
   transition: ${bgcTransition};
 `;
 
@@ -26,7 +25,8 @@ export default (props: PropsType) => {
   return (
     <StyledDivider
       style={{
-        backgroundColor: palette.cDivider[t],
+        marginBottom: 10,
+        backgroundColor: palette.cDivider[t]
       }}
       {...props}
     />
