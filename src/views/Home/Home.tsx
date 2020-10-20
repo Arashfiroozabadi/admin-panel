@@ -44,6 +44,7 @@ import NotificationsNoneIcon from "@material-ui/icons/NotificationsNone";
 import {
   ImgLoader,
   TaskManage,
+  UserRepo,
 } from "../../components";
 import {
   Main,
@@ -69,14 +70,38 @@ import {
 
 import palette from "../../ui/palette";
 
+import { Repo } from "../../types";
+
 import User from "./User";
 import imgOne from "./imgOne.webp";
+
 
 import "./index.scss";
 import "react-calendar/dist/Calendar.css";
 
 const GET_USER = loader("./user.graphql");
 
+interface userType {
+  user: {
+    avatarUrl: string
+    id: string
+    login: string
+    name: string
+    email: string
+    location: string
+    bio: string
+    company: string
+    createdAt: string
+    repositories: Repo
+    // repositories: {
+    //   totalCount: string
+    //   nodes: [{
+    //     id: string
+    //     name: string
+    //   }]
+    // }
+  }
+}
 
 const Home: React.FC = () => {
   const classes = useStyles();
@@ -88,7 +113,7 @@ const Home: React.FC = () => {
   const [user, setUser] = useState<string | null>("arashfiroozabadi");
 
   // Graphql Querys
-  const { loading, error, data } = useQuery(GET_USER, {
+  const { loading, error, data } = useQuery<userType>(GET_USER, {
     variables: {
       user
     },
@@ -173,7 +198,7 @@ const Home: React.FC = () => {
                     {loading ?
                       <Loading type="cylon" />
                       :
-                      `Welcome ${data.user.name}`
+                      `Welcome ${data?.user.name}`
                     }
                   </Typography>
                   <Typography
@@ -197,7 +222,7 @@ const Home: React.FC = () => {
                 </div>
               </StyledSection>
               <StyledSection row >
-                <Box display="flex" flexGrow={1}
+                <Box display="flex" flex={1}
                   m="10px" p="0px 10px" borderRadius={15}
                   maxHeight={300}
                   style={{
@@ -218,7 +243,7 @@ const Home: React.FC = () => {
                           alt="Travis Howard"
                           height={40}
                           width={40}
-                          url={data.user.avatarUrl}
+                          url={data!.user.avatarUrl}
                         />
 
                       }
@@ -226,7 +251,7 @@ const Home: React.FC = () => {
                         {loading ?
                           <Loading width={40} height={40} type="bubbles" />
                           :
-                          data.user.name
+                          data?.user.name
                         }
                       </Typography>
                       <Typography
@@ -240,7 +265,7 @@ const Home: React.FC = () => {
                         {loading ?
                           <Loading width={40} height={40} type="bubbles" />
                           :
-                          data.user.bio
+                          data!.user.bio
                         }
                       </Typography>
                       <Box
@@ -290,8 +315,8 @@ const Home: React.FC = () => {
                       >
                         {loading ?
                           "Loading..." :
-                          data.user.company === null
-                            ? "Google" : data.user.company
+                          data!.user.company === null
+                            ? "Google" : data!.user.company
                         }
                       </Typography>
                     </Box>
@@ -306,7 +331,7 @@ const Home: React.FC = () => {
                           color: palette.text.caption[t]
                         }}
                       >
-                        {loading ? "Loading..." : new Date(data.user.createdAt).toLocaleDateString()}
+                        {loading ? "Loading..." : new Date(data!.user.createdAt).toLocaleDateString()}
                       </Typography>
                     </Box>
                     <Box display="flex" width={1} flexGrow={1}
@@ -320,13 +345,31 @@ const Home: React.FC = () => {
                           color: palette.text.caption[t]
                         }}
                       >
-                        {loading ? "Loading..." : data.user.repositories.totalCount}
+                        {loading ? "Loading..." : data?.user.repositories.totalCount}
                       </Typography>
                     </Box>
                   </StyledCard>
                 </Box>
-                <Box flexGrow={1} m="5px" display="flex" flexDirection="column">
-                  <Box m="5px" p="16px" maxHeight={113}
+                <Box
+                  m="5px"
+                  display="flex"
+                  flex={1}
+                  maxHeight={350}
+                  flexDirection="column"
+                  style={{
+                    overflowX: "hidden",
+                    overflowY: "scroll",
+                  }}
+                >
+                  {
+                    loading ? <Loading width={40} height={40} type="bubbles" />
+                      :
+                      data!.user.repositories.nodes.map((item) => (
+                        <UserRepo key={item.id} data={item} />
+                      ))
+                  }
+
+                  {/* <Box m="5px" p="16px" maxHeight={113}
                     borderRadius={15} flex={1}
                     style={{
                       transition: bgcTransition,
@@ -441,6 +484,7 @@ const Home: React.FC = () => {
                       </AvatarGroup>
                     </Box>
                   </Box>
+                   */}
                 </Box>
               </StyledSection>
             </StyledRow>
