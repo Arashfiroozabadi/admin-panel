@@ -14,7 +14,27 @@ fragment UserInfo on User {
   bio
   company
   createdAt
-  repositories {
+  repositories(first: 100) {
     totalCount
+    nodes {
+      id
+      name
+      description
+      url
+      createdAt
+      updatedAt
+      stargazerCount
+      languages(first: 50) {
+        totalCount
+        totalSize
+        edges {
+          size
+          node {
+            name
+            color
+          }
+        }
+      }
+    }
   }
 }
