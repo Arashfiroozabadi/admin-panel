@@ -3,8 +3,9 @@ import styled from "styled-components/macro";
 import { Paper, PaperProps } from "@material-ui/core";
 import { useSelector } from "react-redux";
 
-import { selectors } from "../../../features/counter";
 import palette from "../../../ui/palette";
+import { selectors } from "../../../features/counter";
+import { bgcTransition } from "../../../constants/timing";
 
 interface PropsTypes extends PaperProps {
   modal?: string
@@ -12,11 +13,17 @@ interface PropsTypes extends PaperProps {
 }
 
 export default styled((props: PropsTypes) => {
+  // Props
   const { ...other } = props;
+  
+  // Redux Hooks
   const t = useSelector(selectors.getTheme);
+
+  // Element Body
   return (
     <Paper
       style={{
+        transition: bgcTransition,
         backgroundColor: palette.paper[t],
       }}
       {...other}
