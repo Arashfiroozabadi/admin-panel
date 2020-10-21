@@ -1,10 +1,23 @@
-import React, { Fragment } from "react";
-import { useHistory } from "react-router-dom";
-import { Button } from "@material-ui/core";
+import React, {
+  Fragment
+} from "react";
 import styled from "styled-components/macro";
+import {
+  useHistory
+} from "react-router-dom";
 import { gql, useQuery } from "@apollo/client";
+// @Material-Ui components
+import { Button } from "@material-ui/core";
 
-import { Typography } from "../../components/themed";
+
+// Local Components
+import { Container, Typography } from "../../components/themed";
+
+import { device } from "../../constants/breakpoint";
+
+import Header from "./Header";
+import Main from "./Main";
+import Footer from "./Footer";
 
 
 const VIEW_USER = gql`
@@ -30,7 +43,7 @@ function User({ login }: { login: string }) {
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>error {error.message}</p>;
-  
+
   return (
     <div>
       {data.user.location}
@@ -46,57 +59,56 @@ const Search: React.FC = () => {
   if (error) return <p>error {error.message}</p>;
   return (
     <Fragment>
-      <Div>
-        <Typography variant="h1">About</Typography>
-        <br />
-        <br />
-        <br />
-        <div>
-          <Typography variant="h2">{data.viewer.login}</Typography>
+      <Container>
+        <Header>
+          <Typography variant="h1">About</Typography>
           <br />
-          <Typography variant="h4">{data.viewer.id}</Typography>
           <br />
-          <Typography variant="h5">{data.viewer.email}</Typography>
-        </div>
-        <br />
-        <br />
+          <br />
 
-        <User login={data.viewer.login} />
 
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <br />
-        <div>
-          <Button
-            variant="contained"
-            color="primary"
-            type="button"
-            className="btn"
-            cy-data="go-back-button"
-            onClick={() => history.push("/")}
-          >
-            Go back
-        </Button>
-        </div>
-      </Div>
+        </Header>
+        <Main >
+          <div>
+            <Typography variant="h2">{data.viewer.login}</Typography>
+            <br />
+            <Typography variant="h4">{data.viewer.id}</Typography>
+            <br />
+            <Typography variant="h5">{data.viewer.email}</Typography>
+          </div>
+          <br />
+          <br />
+
+          <User login={data.viewer.login} />
+
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+          <br />
+        </Main>
+        <Footer >
+          <div>
+            <Button
+              variant="contained"
+              color="primary"
+              type="button"
+              className="btn"
+              cy-data="go-back-button"
+              onClick={() => history.push("/")}
+            >
+              Go back
+            </Button>
+          </div>
+        </Footer>
+      </Container>
     </Fragment>
   );
 };
 
 export default Search;
 
-interface DivProps {
 
-}
-const Div = styled((props: DivProps) => {
-  const { ...other } = props;
-  return (
-    <div {...other} />
-  );
-})`
-width:100%;
-`;
+
 
