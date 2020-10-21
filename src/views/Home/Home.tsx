@@ -22,14 +22,14 @@ import {
   Box,
   Theme,
   AppBar,
-  Avatar,
+  // Avatar,
   Toolbar,
   InputBase,
   makeStyles,
   createStyles,
   InputAdornment,
 } from "@material-ui/core";
-import AvatarGroup from "@material-ui/lab/AvatarGroup";
+// import AvatarGroup from "@material-ui/lab/AvatarGroup";
 
 // Icons
 import AddIcon from "@material-ui/icons/Add";
@@ -37,7 +37,7 @@ import CallIcon from "@material-ui/icons/Call";
 import MailIcon from "@material-ui/icons/Mail";
 import SearchIcon from "@material-ui/icons/Search";
 import ChatBubbleIcon from "@material-ui/icons/ChatBubble";
-import MoreVertIcon from "@material-ui/icons/MoreVert";
+// import MoreVertIcon from "@material-ui/icons/MoreVert";
 import NotificationsNoneIcon from "@material-ui/icons/NotificationsNone";
 
 // Local Components
@@ -54,7 +54,7 @@ import {
   Container,
   IconButton,
   Typography,
-  LinearProgress,
+  // LinearProgress,
 } from "../../components/themed";
 
 import {
@@ -93,13 +93,6 @@ interface userType {
     company: string
     createdAt: string
     repositories: Repo
-    // repositories: {
-    //   totalCount: string
-    //   nodes: [{
-    //     id: string
-    //     name: string
-    //   }]
-    // }
   }
 }
 
@@ -173,6 +166,9 @@ const Home: React.FC = () => {
               <User username={user} />
               <Tooltip title="Add your github username" >
                 <IconButton
+                  style={{
+                    padding: 6,
+                  }}
                   onClick={handleGQL}
                 >
                   <StyledAddIcon />
@@ -362,129 +358,15 @@ const Home: React.FC = () => {
                   }}
                 >
                   {
-                    loading ? <Loading width={40} height={40} type="bubbles" />
+                    loading ?
+                      <Box display="flex" height="100%" justifyContent="center" alignItems="center">
+                        <Loading width={80} height={80} type="bubbles" />
+                      </Box>
                       :
                       data!.user.repositories.nodes.map((item) => (
                         <UserRepo key={item.id} data={item} />
                       ))
                   }
-
-                  {/* <Box m="5px" p="16px" maxHeight={113}
-                    borderRadius={15} flex={1}
-                    style={{
-                      transition: bgcTransition,
-                      backgroundColor: palette.background[t]
-                    }}
-                  >
-                    <Box
-                      display="flex"
-                      alignItems="center"
-                      justifyContent="space-between"
-                    >
-                      <StyledAvatar>F</StyledAvatar>
-                      <Box flexGrow={0.8}>
-                        <Typography variant="body2">
-                          FixPay App
-                        </Typography>
-                      </Box>
-                      <StyledIcon>
-                        <MoreVertIcon />
-                      </StyledIcon>
-                    </Box>
-                    <Box width={0.7} >
-                      <Typography>
-                        Task Done: 25 / 50
-                      </Typography>
-                      <LinearProgress variant="determinate" value={50} />
-                    </Box>
-                    <Box marginTop={2}>
-                      <AvatarGroup max={5} spacing="small">
-                        <StyledAvatar
-                          style={{
-                            borderColor: palette.border[t],
-                          }}
-                          alt="Travis Howard" src="https://material-ui.com/static/images/avatar/2.jpg"
-                        />
-                        <StyledAvatar
-                          style={{
-                            borderColor: palette.border[t],
-                          }}
-                          alt="Cindy Baker" src="https://material-ui.com/static/images/avatar/3.jpg"
-                        />
-                        <StyledAvatar
-                          style={{
-                            borderColor: palette.border[t],
-                          }}
-                          alt="Agnes Walker" src="https://material-ui.com/static/images/avatar/4.jpg"
-                        />
-                        <StyledAvatar
-                          style={{
-                            borderColor: palette.border[t],
-                          }}
-                          alt="Remy Sharp" src="https://material-ui.com/static/images/avatar/5.jpg"
-                        />
-                      </AvatarGroup>
-                    </Box>
-                  </Box>
-                  <Box m="5px" p="16px" maxHeight={113}
-                    flex={1}
-                    borderRadius={15}
-                    style={{
-                      transition: bgcTransition,
-                      backgroundColor: palette.background[t]
-                    }}
-                  >
-                    <Box
-                      display="flex"
-                      alignItems="center"
-                      justifyContent="space-between"
-                    >
-                      <StyledAvatar>R</StyledAvatar>
-                      <Box flexGrow={0.8}>
-                        <Typography variant="body2">
-                          Risely App
-                        </Typography>
-                      </Box>
-                      <StyledIcon>
-                        <MoreVertIcon />
-                      </StyledIcon>
-                    </Box>
-                    <Box width={0.7}>
-                      <Typography>
-                        Task Done: 25 / 50
-                      </Typography>
-                      <LinearProgress variant="determinate" value={50} />
-                    </Box>
-                    <Box marginTop={2}>
-                      <AvatarGroup max={5} spacing="small">
-                        <StyledAvatar
-                          style={{
-                            borderColor: palette.border[t],
-                          }}
-                          alt="Travis Howard" src="https://material-ui.com/static/images/avatar/2.jpg"
-                        />
-                        <StyledAvatar
-                          style={{
-                            borderColor: palette.border[t],
-                          }}
-                          alt="Cindy Baker" src="https://material-ui.com/static/images/avatar/3.jpg"
-                        />
-                        <StyledAvatar
-                          style={{
-                            borderColor: palette.border[t],
-                          }}
-                          alt="Agnes Walker" src="https://material-ui.com/static/images/avatar/4.jpg"
-                        />
-                        <StyledAvatar
-                          style={{
-                            borderColor: palette.border[t],
-                          }}
-                          alt="Remy Sharp" src="https://material-ui.com/static/images/avatar/5.jpg"
-                        />
-                      </AvatarGroup>
-                    </Box>
-                  </Box>
-                   */}
                 </Box>
               </StyledSection>
             </StyledRow>
@@ -586,6 +468,12 @@ const StyledDiv = styled.div`
   flex-grow: 0.02;
   align-items: center;
   justify-content: space-between;
+  @media ${device.mobileS}{
+    width: 100%;
+  }
+  @media ${device.laptop}{
+    width: initial
+  }
 `;
 const StyledRow = styled.div`
   display: flex;
@@ -603,10 +491,6 @@ const StyledCard = styled.div`
   flex-grow: 1;
   align-items: center;
   flex-direction: column;
-`;
-const StyledAvatar = styled(Avatar)`
-  width: 35px;
-  height: 35px;
 `;
 const StyledAddIcon = styled(AddIcon)`
 
