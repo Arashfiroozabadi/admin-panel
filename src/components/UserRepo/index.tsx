@@ -67,7 +67,8 @@ const UserRepo = styled((props: UserRepoProps) => {
         <Typography
           component="p"
           style={{
-            padding: 5
+            padding: 5,
+            color: palette.text.caption[theme],
           }} variant="caption"
         >
           {data.description}
@@ -108,7 +109,7 @@ const UserRepo = styled((props: UserRepoProps) => {
             alignItems="center"
             justifyContent="space-between"
           >
-            <Typography variant="body2">
+            <Typography variant="caption">
               Created At:
           </Typography>
             <Typography
@@ -127,7 +128,7 @@ const UserRepo = styled((props: UserRepoProps) => {
             alignItems="center"
             justifyContent="space-between"
           >
-            <Typography variant="body2">
+            <Typography variant="caption">
               Updated At:
           </Typography>
             <Typography
