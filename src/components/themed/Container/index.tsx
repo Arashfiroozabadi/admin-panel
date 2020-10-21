@@ -11,13 +11,20 @@ import { StyledContainer } from "./styledContainer";
 interface PropsType extends ContainerProps { }
 
 export default (props: PropsType) => {
+  // Props
+  const { style, ...other } = props;
+
+  // Redux Hooks
   const t = useSelector(selectors.getTheme);
+
+  // Element Body
   return (
     <StyledContainer
       style={{
-        backgroundColor: palette.paper[t]
+        backgroundColor: palette.paper[t],
+        ...style
       }}
-      {...props}
+      {...other}
     >
       {props.children}
     </StyledContainer>
