@@ -16,6 +16,7 @@ import theme from "./ui/theme";
 import palette from "./ui/palette";
 import { selectors } from "./features/counter";
 import { device } from "./constants/breakpoint";
+import { Container, Typography } from "./components/themed";
 
 gsap.registerPlugin(CustomEase);
 
@@ -42,6 +43,7 @@ const App: React.FC = () => {
             <Switch>
               <Route path="/" component={Home} exact />
               <Route path="/search" component={Search} />
+              <Route path="*" component={NoMatch} />
             </Switch>
           </Main>
         </ThemeProvider>
@@ -69,5 +71,20 @@ const Main = styled((props: MainProps) => {
   }
 `;
 
+function NoMatch() {
+  return (
+    <Container
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center"
+      }}
+    >
+      <Typography variant="h1">
+        No Match
+      </Typography>
+    </Container>
+  );
+}
 
 export default App;
