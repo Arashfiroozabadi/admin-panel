@@ -8,7 +8,7 @@ import gsap from "gsap";
 import CustomEase from "gsap/CustomEase";
 import { useSelector } from "react-redux";
 
-import About from "./views/About/About";
+import Search from "./views/search";
 import Home from "./views/Home/Home";
 import Nav from "./components/Nav/Nav";
 
@@ -41,7 +41,7 @@ const App: React.FC = () => {
             <Nav />
             <Switch>
               <Route path="/" component={Home} exact />
-              <Route path="/about" component={About} />
+              <Route path="/search" component={Search} />
             </Switch>
           </Main>
         </ThemeProvider>

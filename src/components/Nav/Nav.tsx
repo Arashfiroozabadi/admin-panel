@@ -133,8 +133,8 @@ const Nav: React.FC = () => {
             startIcon={<DashboardIcon />}
           />
           <NavBtn
-            to="/about"
-            title={!openMenu ? "About" : ""}
+            to="/search"
+            title={!openMenu ? "Search in github" : ""}
             navclass="nav_link"
             startIcon={<GitHub />}
           />
