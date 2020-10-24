@@ -60,14 +60,7 @@ const Search: React.FC = () => {
   return (
     <Fragment>
       <Container>
-        <Header>
-          <Typography variant="h1">About</Typography>
-          <br />
-          <br />
-          <br />
-
-
-        </Header>
+        <Header />
         <Main >
           <div>
             <Typography variant="h2">{data.viewer.login}</Typography>
