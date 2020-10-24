@@ -1,11 +1,17 @@
 import React from "react";
 import styled from "styled-components/macro";
-import { TextField, TextFieldProps } from "@material-ui/core";
+import { TextField, OutlinedTextFieldProps } from "@material-ui/core";
 import { useSelector } from "react-redux";
 
 import { selectors } from "../../../features/counter";
 import palette from "../../../ui/palette";
 
+
+
+interface TextFieldProps extends OutlinedTextFieldProps {
+  labelStyle?: React.CSSProperties
+  inputStyle?: React.CSSProperties
+}
 
 export default (props: TextFieldProps) => {
   const { ...other } = props;
@@ -15,8 +21,13 @@ export default (props: TextFieldProps) => {
     />
   );
 };
-const StyledTextField = styled((props: TextFieldProps) => {
-  const { ...other } = props;
+
+interface Props extends OutlinedTextFieldProps {
+  labelStyle?: React.CSSProperties
+  inputStyle?: React.CSSProperties
+}
+const StyledTextField = styled((props: Props) => {
+  const { InputProps, InputLabelProps, inputStyle, labelStyle, ...other } = props;
   const t = useSelector(selectors.getTheme);
   return (
     <TextField
@@ -25,13 +36,17 @@ const StyledTextField = styled((props: TextFieldProps) => {
       }}
       InputLabelProps={{
         style: {
-          color: palette.inputColor[t]
-        }
+          color: palette.inputColor[t],
+          ...labelStyle
+        },
+        ...InputLabelProps
       }}
       InputProps={{
         style: {
-          color: palette.inputColor[t]
-        }
+          color: palette.inputColor[t],
+          ...inputStyle
+        },
+        ...InputProps
       }}
       {...other}
     />
