@@ -24,6 +24,7 @@
     "@types/redux-mock-store": "^1.0.2",
     "@types/styled-components": "^5.1.2",
     "axios": "^0.19.2",
+    "clsx": "^1.1.1",
     "date-fns": "^2.16.1",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.3",
