@@ -55,6 +55,10 @@ export default {
     error: {
       dark: white,
       light: black,
+    },
+    label: {
+      dark: colors.grey[600],
+      light: colors.grey[700],
     }
   },
   progress: {

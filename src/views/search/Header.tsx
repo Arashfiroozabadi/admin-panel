@@ -1,6 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
-import { InputAdornment } from "@material-ui/core";
+import { Box, FormControl, InputAdornment, MenuItem } from "@material-ui/core";
 import { createStyles, Theme, makeStyles } from "@material-ui/core/styles";
 import styled from "styled-components/macro";
 
@@ -10,9 +10,17 @@ import { Search, Tune } from "@material-ui/icons";
 // Local Components 
 import clsx from "clsx";
 
-import { Button, Divider, TextField } from "../../components/themed";
+import { useSelector } from "react-redux";
+
+import { Button, Divider, TextField, InputLabel, Select } from "../../components/themed";
 import { device } from "../../constants/breakpoint";
 import palette from "../../ui/palette";
+
+import { selectors } from "../../features/counter";
+
+import { bgcTransition } from "../../constants/timing";
+
+import Filters from "./Filters";
 
 // Component Types
 interface HeaderProps {
@@ -68,15 +76,17 @@ const useStyles = makeStyles((theme: Theme) =>
 
     },
     filterBox: {
-      top: -125,
-      width: "100%",
+      top: -1000,
+      width: "calc(100% - 2px)",
+      border: "1px solid",
       position: "absolute",
       boxShadow: theme.shadows["4"],
       borderRadius: theme.shape.borderRadius,
-      backgroundColor: "red",
     },
     filter: {
-      //CSS @Media Querys  
+      display: "flex",
+
+      //CSS @Media Querys 
       [theme.breakpoints.down("xs")]: {
         padding: theme.spacing(1)
       },
@@ -89,10 +99,19 @@ const useStyles = makeStyles((theme: Theme) =>
         padding: theme.spacing(2)
       }
     },
+    rootSearchTypeFormControl: {
+      minWidth: 160
+    },
+
+    row: {
+
+    },
 
   }),
 );
 
+
+type searchType = "USER" | "REPOSITORY" | "ISSUE" | ""
 
 // Component
 const Header = styled((props: HeaderProps) => {
@@ -101,6 +120,11 @@ const Header = styled((props: HeaderProps) => {
 
   // States
   const [open, setOpen] = useState(false);
+  const [inValue, setInValue] = useState("");
+  const [searchType, setSearchType] = useState<searchType>("REPOSITORY");
+
+  // THEME
+  const theme = useSelector(selectors.getTheme);
 
   // Material-UI Hooks
   const classes = useStyles();
@@ -115,22 +139,31 @@ const Header = styled((props: HeaderProps) => {
     if (!open) {
       gsap.to(el, {
         top: 0,
-        duration: 0.250
+        duration: 0.500
       });
       setOpen(!open);
     } else {
       gsap.to(el, {
-        top: -125,
-        duration: 0.250
+        top: -1000,
+        duration: 0.500
       });
       setOpen(!open);
     }
   };
 
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setInValue(e.target.value);
+  };
+
+  const handleChangeSearchType = (e: React.ChangeEvent<{ value: unknown }>) => {
+    setSearchType(e.target.value as searchType);
+  };
+
+  // React Hooks
   useEffect(() => {
     const el = filterRef.current;
 
-    gsap.set(el, { top: -125 });
+    gsap.set(el, { top: -1000 });
 
     return () => undefined;
   }, []);
@@ -144,15 +177,20 @@ const Header = styled((props: HeaderProps) => {
         }}
         variant="outlined"
         label="Search"
+        placeholder={`searching in ${searchType}`}
+        onChange={handleChange}
+
         InputProps={{
           endAdornment: (
             <InputAdornment position="start">
               <>
                 <Button
+                  disabled={searchType === "" ? true : false}
                   classes={{
                     root: classes.rootBtn,
                   }}
                   inInput
+
                 >
                   <Search />
                 </Button>
@@ -183,10 +221,57 @@ const Header = styled((props: HeaderProps) => {
         }}
       />
       <Divider classes={{ root: classes.divider }} />
-      <div className={classes.filterContainer} >
-        <div ref={filterRef} className={classes.filterBox}>
-          <div className={classes.filter} >
-            <h1>test</h1>
+      <div
+        className={classes.filterContainer}
+      >
+        <div
+          ref={filterRef}
+          className={classes.filterBox}
+          style={{
+            backgroundColor: palette.background[theme],
+            borderColor: palette.border[theme],
+            transition: bgcTransition,
+          }}
+        >
+          <div className={classes.filter}>
+            <Box flex={0.2} className={clsx(classes.row)} >
+              <FormControl
+                variant="outlined"
+                classes={{
+                  root: classes.rootSearchTypeFormControl
+                }}
+              >
+                <InputLabel
+                  id="demo-simple-select-label"
+                >
+                  Search Type
+                </InputLabel>
+                <Select
+                  labelId="demo-simple-select-label"
+                  id="demo-simple-select"
+                  value={searchType}
+                  onChange={handleChangeSearchType}
+                >
+                  <MenuItem value="">
+                    <em>None</em>
+                  </MenuItem>
+                  <MenuItem value="USER" >
+                    USER
+                  </MenuItem>
+                  <MenuItem value="REPOSITORY" >
+                    REPOSITORY
+                  </MenuItem>
+                  <MenuItem value="ISSUE" >
+                    ISSUE
+                  </MenuItem>
+                </Select>
+              </FormControl>
+            </Box>
+            <Box flex={1} className={clsx(classes.row)}>
+              <Filters
+                type={searchType}
+              />
+            </Box>
           </div>
         </div>
       </div>

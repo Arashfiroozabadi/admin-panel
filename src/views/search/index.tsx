@@ -11,7 +11,7 @@ import { Button } from "@material-ui/core";
 
 
 // Local Components
-import { Container, Typography } from "../../components/themed";
+import { Container, Loading, Typography } from "../../components/themed";
 
 import { device } from "../../constants/breakpoint";
 
@@ -30,6 +30,27 @@ const VIEW_USER = gql`
  }
 `;
 
+const SEARCH = gql`
+  query search($queryString: String!){
+    search(query: $queryString , type:REPOSITORY , first:10 ) {
+      repositoryCount
+      edges {
+        node{
+          ... on Repository{
+          id
+          name
+          nameWithOwner
+          homepageUrl
+          url
+          updatedAt
+          stargazerCount
+          }
+        }
+      }
+    }
+  }
+`;
+
 const GET_USER = gql`
   query Test($login:String!){
     user(login:$login){
@@ -41,7 +62,7 @@ const GET_USER = gql`
 function User({ login }: { login: string }) {
   const { loading, error, data } = useQuery(GET_USER, { variables: { login } });
 
-  if (loading) return <p>Loading...</p>;
+  if (loading) return <Loading type="bars" />;
   if (error) return <p>error {error.message}</p>;
 
   return (
@@ -54,25 +75,32 @@ function User({ login }: { login: string }) {
 const Search: React.FC = () => {
   const history = useHistory();
 
-  const { loading, error, data } = useQuery(VIEW_USER);
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p>error {error.message}</p>;
+  const { loading, error, data } = useQuery(
+    SEARCH,
+    {
+      variables: {
+        "queryString": "react language:JavaScript"
+      }
+    }
+  );
+  if (loading) return <Loading type="cylon" />;
+  if (error) return <Typography>error {error.message}</Typography>;
   return (
     <Fragment>
       <Container>
         <Header />
         <Main >
           <div>
-            <Typography variant="h2">{data.viewer.login}</Typography>
+            {data.search.edges.map(((item: any) => (
+              <Typography key={item.node.id} variant="h2">{item.node.nameWithOwner}</Typography>
+            )))
+            }
             <br />
-            <Typography variant="h4">{data.viewer.id}</Typography>
-            <br />
-            <Typography variant="h5">{data.viewer.email}</Typography>
           </div>
           <br />
           <br />
 
-          <User login={data.viewer.login} />
+          <User login={data.search.edges[0].node.name} />
 
           <br />
           <br />

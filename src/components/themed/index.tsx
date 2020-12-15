@@ -11,4 +11,6 @@ export { default as Paper } from "./Paper";
 export { default as Button } from "./Button";
 export { default as Loading } from "./Loading";
 export { default as Tooltip } from "./Tooltip";
+export { default as InputLabel } from "./InputLabel";
+export { default as Select } from "./Select";
 

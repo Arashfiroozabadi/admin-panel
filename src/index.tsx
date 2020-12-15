@@ -18,7 +18,7 @@ export const client = new ApolloClient({
   cache,
   uri: "https://api.github.com/graphql",
   headers: {
-    authorization: "Bearer ***"
+    authorization: "Bearer ef803f457efdb5bad219a64171db75b5cbd55d9d"
   },
   connectToDevTools: true
 });
