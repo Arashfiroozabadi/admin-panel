@@ -5,19 +5,24 @@ import styled from "styled-components/macro";
 import {
   useHistory
 } from "react-router-dom";
-import { gql, useQuery } from "@apollo/client";
+import { gql, useQuery, useLazyQuery } from "@apollo/client";
 // @Material-Ui components
 import { Button } from "@material-ui/core";
 
 
 // Local Components
+import { useSelector } from "react-redux";
+
 import { Container, Loading, Typography } from "../../components/themed";
 
 import { device } from "../../constants/breakpoint";
 
+import { getSearchType, getSearchQuery } from "../../features/gql";
+
 import Header from "./Header";
 import Main from "./Main";
 import Footer from "./Footer";
+import SearchResult from "./SearchResult";
 
 
 const VIEW_USER = gql`
@@ -31,19 +36,29 @@ const VIEW_USER = gql`
 `;
 
 const SEARCH = gql`
-  query search($queryString: String!){
-    search(query: $queryString , type:REPOSITORY , first:10 ) {
+  query search($queryString: String!, $type:SearchType!){
+    search(query: $queryString , type:$type , first:10 ) {
       repositoryCount
+      issueCount
+      userCount
       edges {
         node{
           ... on Repository{
           id
-          name
-          nameWithOwner
-          homepageUrl
           url
+          name
           updatedAt
+          homepageUrl
+          description
+          nameWithOwner
           stargazerCount
+          primaryLanguage {
+            name
+            color
+          }
+          }
+          ...on User{
+            userName:name
           }
         }
       }
@@ -60,6 +75,7 @@ const GET_USER = gql`
 `;
 
 function User({ login }: { login: string }) {
+  // GraphQL
   const { loading, error, data } = useQuery(GET_USER, { variables: { login } });
 
   if (loading) return <Loading type="bars" />;
@@ -75,39 +91,70 @@ function User({ login }: { login: string }) {
 const Search: React.FC = () => {
   const history = useHistory();
 
-  const { loading, error, data } = useQuery(
-    SEARCH,
-    {
-      variables: {
-        "queryString": "react language:JavaScript"
-      }
+  // Redux State
+  const gqlSearchTpye = useSelector(getSearchType);
+  const gqlSearchQuery = useSelector(getSearchQuery);
+
+  // GraphQL Query
+  const [getData, { loading, called, error, data }] = useLazyQuery(SEARCH, {
+    variables: {
+      queryString: gqlSearchQuery,
+      type: gqlSearchTpye
     }
-  );
-  if (loading) return <Loading type="cylon" />;
-  if (error) return <Typography>error {error.message}</Typography>;
+  });
+
+  // const { loading, error, data } = useQuery(
+  //   SEARCH,
+  //   {
+  //     variables: {
+  //       queryString: gqlSearchQuery,
+  //       type: gqlSearchTpye
+  //     }
+  //   }
+  // );
   return (
     <Fragment>
       <Container>
-        <Header />
+        <Header getQuery={() => getData()} />
         <Main >
-          <div>
-            {data.search.edges.map(((item: any) => (
-              <Typography key={item.node.id} variant="h2">{item.node.nameWithOwner}</Typography>
-            )))
-            }
-            <br />
-          </div>
-          <br />
-          <br />
+          {
+            !called ? "" :
+              loading ? <Loading type="cylon" /> :
+                error ? <Typography>error {error.message}</Typography> :
+                  data.search.edges.length === 0 ? <Typography>404</Typography> :
+                    <div>
+                      <SearchResult items={data.search} />
+                      {/* <Typography>
+                        Search result counts : {data.search.repositoryCount}
+                      </Typography>
+                      {data.search.edges.map(((item: any) => (
+                        <Typography key={item.node.id} variant="h2">
+                          {
+                            item.node.nameWithOwner ? item.node.nameWithOwner : item.node.userName
+                          }
+                        </Typography>
+                      )))
+                      }
+                      <br /> */}
+                    </div>
+          }
 
-          <User login={data.search.edges[0].node.name} />
-
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
-          <br />
+          {/* {
+            loading ? <Loading type="cylon" /> :
+              error ? <Typography>error {error.message}</Typography> :
+                data.search.edges.length === 0 ? <Typography>404</Typography> :
+                  <div>
+                    {data.search.edges.map(((item: any) => (
+                      <Typography key={item.node.id} variant="h2">
+                        {
+                          item.node.nameWithOwner ? item.node.nameWithOwner : item.node.userName
+                        }
+                      </Typography>
+                    )))
+                    }
+                    <br />
+                  </div>
+          } */}
         </Main>
         <Footer >
           <div>
