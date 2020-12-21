@@ -10,7 +10,7 @@ import { Search, Tune } from "@material-ui/icons";
 // Local Components 
 import clsx from "clsx";
 
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import { Button, Divider, TextField, InputLabel, Select } from "../../components/themed";
 import { device } from "../../constants/breakpoint";
@@ -20,11 +20,13 @@ import { selectors } from "../../features/counter";
 
 import { bgcTransition } from "../../constants/timing";
 
+import { getSearchQuery, getSearchType } from "../../features/gql";
+
 import Filters from "./Filters";
 
 // Component Types
 interface HeaderProps {
-
+  getQuery: any
 }
 
 // MUi Styles
@@ -70,13 +72,15 @@ const useStyles = makeStyles((theme: Theme) =>
     filterContainer: {
       width: "100%",
       height: "100%",
+      zIndex: 1,
       overflow: "hidden",
       position: "absolute",
-      minHeight: 450,
+      minHeight: 90,
+      marginTop: -20,
 
     },
     filterBox: {
-      top: -1000,
+      top: -100,
       width: "calc(100% - 2px)",
       border: "1px solid",
       position: "absolute",
@@ -92,11 +96,11 @@ const useStyles = makeStyles((theme: Theme) =>
       },
 
       [theme.breakpoints.up("sm")]: {
-        padding: theme.spacing(1.5)
+        padding: theme.spacing(1.2)
       },
 
       [theme.breakpoints.up("md")]: {
-        padding: theme.spacing(2)
+        padding: theme.spacing(1.5)
       }
     },
     rootSearchTypeFormControl: {
@@ -116,15 +120,18 @@ type searchType = "USER" | "REPOSITORY" | "ISSUE" | ""
 // Component
 const Header = styled((props: HeaderProps) => {
   // Props
-  const { ...other } = props;
+  const { getQuery, ...other } = props;
 
   // States
   const [open, setOpen] = useState(false);
   const [inValue, setInValue] = useState("");
   const [searchType, setSearchType] = useState<searchType>("REPOSITORY");
 
-  // THEME
+  // Redux
   const theme = useSelector(selectors.getTheme);
+  const gqlSearchType = useSelector(getSearchType);
+  const gqlSearchQuery = useSelector(getSearchQuery);
+  const dispatch = useDispatch();
 
   // Material-UI Hooks
   const classes = useStyles();
@@ -144,7 +151,7 @@ const Header = styled((props: HeaderProps) => {
       setOpen(!open);
     } else {
       gsap.to(el, {
-        top: -1000,
+        top: -100,
         duration: 0.500
       });
       setOpen(!open);
@@ -154,9 +161,24 @@ const Header = styled((props: HeaderProps) => {
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInValue(e.target.value);
   };
+  const handleSearchBtn = () => {
+    const el = filterRef.current;
+
+    gsap.to(el, {
+      top: -100,
+      duration: 0.500
+    });
+    setOpen(false);
+    getQuery();
+    dispatch({
+      type: "SEARCH_QUERY",
+      payload: inValue
+    });
+  };
 
   const handleChangeSearchType = (e: React.ChangeEvent<{ value: unknown }>) => {
     setSearchType(e.target.value as searchType);
+    dispatch({ type: e.target.value });
   };
 
   // React Hooks
@@ -169,6 +191,7 @@ const Header = styled((props: HeaderProps) => {
   }, []);
 
   //Element Body 
+
   return (
     <header {...other}>
       <TextField
@@ -177,9 +200,9 @@ const Header = styled((props: HeaderProps) => {
         }}
         variant="outlined"
         label="Search"
-        placeholder={`searching in ${searchType}`}
+        placeholder={`searching in ${gqlSearchType}`}
         onChange={handleChange}
-
+        // value={inValue ? inValue : gqlSearchQuery}
         InputProps={{
           endAdornment: (
             <InputAdornment position="start">
@@ -190,7 +213,7 @@ const Header = styled((props: HeaderProps) => {
                     root: classes.rootBtn,
                   }}
                   inInput
-
+                  onClick={handleSearchBtn}
                 >
                   <Search />
                 </Button>
@@ -249,7 +272,7 @@ const Header = styled((props: HeaderProps) => {
                 <Select
                   labelId="demo-simple-select-label"
                   id="demo-simple-select"
-                  value={searchType}
+                  value={gqlSearchType}
                   onChange={handleChangeSearchType}
                 >
                   <MenuItem value="">
@@ -266,11 +289,6 @@ const Header = styled((props: HeaderProps) => {
                   </MenuItem>
                 </Select>
               </FormControl>
-            </Box>
-            <Box flex={1} className={clsx(classes.row)}>
-              <Filters
-                type={searchType}
-              />
             </Box>
           </div>
         </div>
