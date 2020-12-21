@@ -7,7 +7,7 @@ import { Provider } from "react-redux";
 
 import { CounterReducer, ThemeReducer } from "./features/counter";
 import { TaskReducer } from "./features/taskmanage";
-
+import { SearchTypeReducer, searchQueryReducer } from "./features/gql";
 import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 
@@ -18,7 +18,7 @@ export const client = new ApolloClient({
   cache,
   uri: "https://api.github.com/graphql",
   headers: {
-    authorization: "Bearer ef803f457efdb5bad219a64171db75b5cbd55d9d"
+    authorization: "Bearer 547c322ce66e642ceb6131d056bd3906d0149219"
   },
   connectToDevTools: true
 });
@@ -26,7 +26,9 @@ export const client = new ApolloClient({
 const rootReducer = combineReducers({
   count: CounterReducer,
   theme: ThemeReducer,
-  tasks: TaskReducer
+  tasks: TaskReducer,
+  searchType: SearchTypeReducer,
+  searchQuery: searchQueryReducer
 });
 
 const preloadedState = {};
