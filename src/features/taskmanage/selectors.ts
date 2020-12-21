@@ -4,7 +4,7 @@ interface TaskStateType {
     title: string
     caption: string
     date: {
-      month:number,
+      month: number,
       date: number,
       day: number,
       h: number,
