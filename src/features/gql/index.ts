@@ -1,5 +1,5 @@
-import { getSearchType, getSearchQuery } from "./selectors";
-import { SearchTypeReducer, searchQueryReducer } from "./reducer";
+import { getSearchType, getSearchQuery, getPagintion } from "./selectors";
+import { SearchTypeReducer, searchQueryReducer, pagintionReducer } from "./reducer";
 import searchActions from "./actions";
 enum SearchActionType {
   REPOSITORY = "REPOSITORY",
@@ -28,5 +28,7 @@ export {
   SearchActionType,
   SearchTypeReducer,
   getSearchQuery,
-  searchQueryReducer
+  searchQueryReducer,
+  pagintionReducer,
+  getPagintion
 };

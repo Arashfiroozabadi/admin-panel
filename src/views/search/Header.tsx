@@ -1,17 +1,17 @@
 import React, { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
-import { Box, FormControl, InputAdornment, MenuItem } from "@material-ui/core";
-import { createStyles, Theme, makeStyles } from "@material-ui/core/styles";
+import clsx from "clsx";
 import styled from "styled-components/macro";
+import { useDispatch, useSelector } from "react-redux";
 
 // @MUi Icons
 import { Search, Tune } from "@material-ui/icons";
+import { createStyles, Theme, makeStyles } from "@material-ui/core/styles";
+import { Box, FormControl, InputAdornment, MenuItem } from "@material-ui/core";
+
+
 
 // Local Components 
-import clsx from "clsx";
-
-import { useDispatch, useSelector } from "react-redux";
-
 import { Button, Divider, TextField, InputLabel, Select } from "../../components/themed";
 import { device } from "../../constants/breakpoint";
 import palette from "../../ui/palette";
@@ -21,8 +21,6 @@ import { selectors } from "../../features/counter";
 import { bgcTransition } from "../../constants/timing";
 
 import { getSearchQuery, getSearchType } from "../../features/gql";
-
-import Filters from "./Filters";
 
 // Component Types
 interface HeaderProps {
@@ -159,17 +157,25 @@ const Header = styled((props: HeaderProps) => {
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+
     setInValue(e.target.value);
+
   };
   const handleSearchBtn = () => {
     const el = filterRef.current;
-
+    if (gqlSearchQuery !== inValue) {
+      dispatch({
+        type: "CHANGE"
+      });
+    }
     gsap.to(el, {
       top: -100,
       duration: 0.500
     });
     setOpen(false);
+
     getQuery();
+
     dispatch({
       type: "SEARCH_QUERY",
       payload: inValue

@@ -28,3 +28,17 @@ export const searchQueryReducer = (state = "", action: SearchQueryTypes) => {
       return state;
   }
 };
+interface PagintionTypes {
+  type: "CHANGE" | "NO_CHANGE"
+}
+// REST_PAGINTION_DATA
+export const pagintionReducer = (state = false, action: PagintionTypes) => {
+  switch (action.type) {
+    case "CHANGE":
+      return true;
+    case "NO_CHANGE":
+      return false;
+    default:
+      return state;
+  }
+};

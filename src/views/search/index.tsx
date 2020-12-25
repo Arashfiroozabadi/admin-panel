@@ -1,23 +1,13 @@
-import React, {
-  Fragment
-} from "react";
-import styled from "styled-components/macro";
-import {
-  useHistory
-} from "react-router-dom";
-import { gql, useQuery, useLazyQuery } from "@apollo/client";
+import React, { Fragment, useEffect } from "react";
+import { gql, useLazyQuery } from "@apollo/client";
+import { useDispatch, useSelector } from "react-redux";
+import { useState } from "react";
 // @Material-Ui components
 import { Button } from "@material-ui/core";
 
-
 // Local Components
-import { useSelector } from "react-redux";
-
 import { Container, Loading, Typography } from "../../components/themed";
-
-import { device } from "../../constants/breakpoint";
-
-import { getSearchType, getSearchQuery } from "../../features/gql";
+import { getSearchType, getSearchQuery, getPagintion } from "../../features/gql";
 
 import Header from "./Header";
 import Main from "./Main";
@@ -25,37 +15,39 @@ import Footer from "./Footer";
 import SearchResult from "./SearchResult";
 
 
-const VIEW_USER = gql`
- query MyUser{
-   viewer {
-     login
-     id
-     email
-   }
- }
-`;
-
 const SEARCH = gql`
-  query search($queryString: String!, $type:SearchType!){
-    search(query: $queryString , type:$type , first:10 ) {
+  query search($queryString: String!, $type:SearchType!, $after:String){
+    search(query: $queryString , type:$type , first:20, after:$after ) {
       repositoryCount
       issueCount
       userCount
+      pageInfo {
+        startCursor
+        hasNextPage
+        hasPreviousPage
+        endCursor
+      }
       edges {
         node{
           ... on Repository{
-          id
-          url
-          name
-          updatedAt
-          homepageUrl
-          description
-          nameWithOwner
-          stargazerCount
-          primaryLanguage {
+            id
+            url
             name
-            color
-          }
+            issues(states:OPEN ,labels:"good first issue") {
+              totalCount
+            }
+            updatedAt
+            homepageUrl
+            description
+            licenseInfo {
+              name
+            }
+            nameWithOwner
+            stargazerCount
+            primaryLanguage {
+              name
+             color
+            }
           }
           ...on User{
             userName:name
@@ -66,56 +58,82 @@ const SEARCH = gql`
   }
 `;
 
-const GET_USER = gql`
-  query Test($login:String!){
-    user(login:$login){
-      location
-    }
-  }
-`;
-
-function User({ login }: { login: string }) {
-  // GraphQL
-  const { loading, error, data } = useQuery(GET_USER, { variables: { login } });
-
-  if (loading) return <Loading type="bars" />;
-  if (error) return <p>error {error.message}</p>;
-
-  return (
-    <div>
-      {data.user.location}
-    </div>
-  );
+interface PageInfoStateTypes {
+  nextPage: string | null
+  pageCount: number
+  pageList?: any
 }
 
 const Search: React.FC = () => {
-  const history = useHistory();
+  // React States
+  const [pageInfo, setPageInfo] = useState<PageInfoStateTypes>({
+    nextPage: null,
+    pageCount: 1,
+    pageList: [null]
+  });
 
-  // Redux State
+  // Redux States
   const gqlSearchTpye = useSelector(getSearchType);
   const gqlSearchQuery = useSelector(getSearchQuery);
+  const restPagintionData = useSelector(getPagintion);
+
+  const dispatch = useDispatch();
 
   // GraphQL Query
   const [getData, { loading, called, error, data }] = useLazyQuery(SEARCH, {
     variables: {
       queryString: gqlSearchQuery,
-      type: gqlSearchTpye
+      type: gqlSearchTpye,
+      after: pageInfo.nextPage
     }
   });
 
-  // const { loading, error, data } = useQuery(
-  //   SEARCH,
-  //   {
-  //     variables: {
-  //       queryString: gqlSearchQuery,
-  //       type: gqlSearchTpye
-  //     }
-  //   }
-  // );
+
+
+  // Event Handlers
+  const handleNextPage = () => {
+    dispatch({ type: "NO_CHANGE" });
+    const endCursor = data.search.pageInfo.endCursor;
+    setPageInfo({
+      pageList: [...pageInfo.pageList, endCursor],
+      nextPage: endCursor,
+      pageCount: ++pageInfo.pageCount,
+    });
+  };
+
+  const handlePrevPage = () => {
+    dispatch({ type: "NO_CHANGE" });
+    const array = [...pageInfo.pageList];
+    if (pageInfo.pageCount > 0) {
+      array.splice(-1, 1);
+      setPageInfo({
+        pageList: array,
+        nextPage: pageInfo.pageList[pageInfo.pageCount - 2],
+        pageCount: --pageInfo.pageCount,
+      });
+    }
+  };
+
+  useEffect(() => {
+    if (restPagintionData) {
+      setPageInfo({
+        nextPage: null,
+        pageCount: 1,
+        pageList: [null]
+      });
+    }
+
+    return () => { };
+  }, [restPagintionData]);
+
   return (
     <Fragment>
       <Container>
+
+        {/* Header */}
         <Header getQuery={() => getData()} />
+
+        {/* Body */}
         <Main >
           {
             !called ? "" :
@@ -124,50 +142,43 @@ const Search: React.FC = () => {
                   data.search.edges.length === 0 ? <Typography>404</Typography> :
                     <div>
                       <SearchResult items={data.search} />
-                      {/* <Typography>
-                        Search result counts : {data.search.repositoryCount}
-                      </Typography>
-                      {data.search.edges.map(((item: any) => (
-                        <Typography key={item.node.id} variant="h2">
-                          {
-                            item.node.nameWithOwner ? item.node.nameWithOwner : item.node.userName
-                          }
-                        </Typography>
-                      )))
-                      }
-                      <br /> */}
                     </div>
           }
-
-          {/* {
-            loading ? <Loading type="cylon" /> :
-              error ? <Typography>error {error.message}</Typography> :
-                data.search.edges.length === 0 ? <Typography>404</Typography> :
-                  <div>
-                    {data.search.edges.map(((item: any) => (
-                      <Typography key={item.node.id} variant="h2">
-                        {
-                          item.node.nameWithOwner ? item.node.nameWithOwner : item.node.userName
-                        }
-                      </Typography>
-                    )))
-                    }
-                    <br />
-                  </div>
-          } */}
         </Main>
+
+        {/* Footer */}
         <Footer >
           <div>
-            <Button
-              variant="contained"
-              color="primary"
-              type="button"
-              className="btn"
-              cy-data="go-back-button"
-              onClick={() => history.push("/")}
-            >
-              Go back
-            </Button>
+            {
+              !called ? "" : loading ? "" :
+                <>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    type="button"
+                    className="btn"
+                    cy-data="go-back-button"
+                    disabled={!data.search.pageInfo.hasPreviousPage}
+                    onClick={handlePrevPage}
+                  >
+                    prev page
+                  </Button>
+                  <Typography>
+                    {pageInfo.pageCount}
+                  </Typography>
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    type="button"
+                    className="btn"
+                    cy-data="go-back-button"
+                    disabled={!data.search.pageInfo.hasNextPage}
+                    onClick={handleNextPage}
+                  >
+                    next page
+                  </Button>
+                </>
+            }
           </div>
         </Footer>
       </Container>

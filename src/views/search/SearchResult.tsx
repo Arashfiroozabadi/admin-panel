@@ -3,7 +3,11 @@ import { createStyles, Theme, makeStyles } from "@material-ui/core/styles";
 import { Star } from "@material-ui/icons";
 import clsx from "clsx";
 
+import { useSelector } from "react-redux";
+
 import { Divider, Typography } from "../../components/themed";
+import { selectors } from "../../features/counter";
+import palette from "../../ui/palette";
 
 interface PropTypes {
   items: {
@@ -15,6 +19,9 @@ interface PropTypes {
         id: string
         url: string
         name: string
+        issues: {
+          totalCount: number
+        }
         updatedAt: string
         description: string
         homepageUrl: string
@@ -23,6 +30,9 @@ interface PropTypes {
         primaryLanguage: {
           name: string
           color: string
+        }
+        licenseInfo: {
+          name: string
         }
       }
     }]
@@ -50,9 +60,11 @@ const useStyles = makeStyles((theme: Theme) =>
     footerRow: {
       margin: "0px 10px"
     },
+    footerCaptionText: {
+      fontSize: "small"
+    },
     star: {
       display: "flex",
-      fontSize: "medium",
       alignItems: "center",
     },
     language: {
@@ -67,8 +79,14 @@ const useStyles = makeStyles((theme: Theme) =>
       marginRight: 4,
       borderRadius: "50%",
     },
-    langText: {
-      fontSize: "small",
+    license: {
+
+    },
+    lastUpdate: {
+
+    },
+    openIssue: {
+
     }
   })
 );
@@ -76,6 +94,9 @@ const useStyles = makeStyles((theme: Theme) =>
 function SearchResult({ items }: PropTypes) {
   // Material-UI Hooks
   const classes = useStyles();
+
+  // Redux States
+  const t = useSelector(selectors.getTheme);
 
   if (items.repositoryCount > 0) {
     const repoCount = numberWithCommas(items.repositoryCount);
@@ -86,21 +107,32 @@ function SearchResult({ items }: PropTypes) {
         </div>
         {items.edges.map((item) => (
           <div key={item.node.id} >
+            {/* Item Header */}
             <Typography>
               <a href={item.node.url}>
                 {item.node.nameWithOwner}
               </a>
             </Typography>
+
+            {/* Item Body */}
             <div className={classes.itemBody} >
-              <Typography variant="body2" >
+              <Typography variant="body1" >
                 {item.node.description}
               </Typography>
             </div>
+
+            {/* Item Footer */}
             <div className={classes.footer} >
               <div className={clsx(classes.footerRow)} >
-                <Typography className={classes.star} >
+                <Typography variant="caption" className={clsx(classes.star, classes.footerCaptionText)}
+                  style={{
+                    color: palette.text.caption[t]
+                  }}
+                >
                   <Star
-                    fontSize="small"
+                    style={{
+                      fontSize: "1rem"
+                    }}
                     htmlColor="gold"
                   />
                   {makeFriendly(item.node.stargazerCount)}
@@ -115,8 +147,49 @@ function SearchResult({ items }: PropTypes) {
                         backgroundColor: item.node.primaryLanguage.color
                       }}
                     />
-                    <Typography className={classes.langText}>
+                    <Typography variant="caption" className={clsx(classes.footerCaptionText)}
+                      style={{
+                        color: palette.text.caption[t]
+                      }}
+                    >
                       {item.node.primaryLanguage.name}
+                    </Typography>
+                  </>
+                  : null
+                }
+              </div>
+              <div className={clsx(classes.license, classes.footerRow)} >
+                {item.node.licenseInfo ?
+                  <>
+                    <Typography variant="caption" className={clsx(classes.footerCaptionText)}
+                      style={{
+                        color: palette.text.caption[t],
+                      }}
+                    >
+                      {item.node.licenseInfo.name}
+                    </Typography>
+                  </>
+                  : null
+                }
+              </div>
+              <div className={clsx(classes.lastUpdate, classes.footerRow)} >
+                <Typography variant="caption" className={clsx(classes.footerCaptionText)}
+                  style={{
+                    color: palette.text.caption[t],
+                  }}
+                >
+                  Updated {new Date(item.node.updatedAt).toLocaleDateString()}
+                </Typography>
+              </div>
+              <div className={clsx(classes.openIssue, classes.footerRow)} >
+                {item.node.issues.totalCount > 0 ?
+                  <>
+                    <Typography
+                      className={clsx(classes.footerCaptionText)}
+                      variant="caption"
+                      style={{ color: palette.text.caption[t] }}
+                    >
+                      {item.node.issues.totalCount} issues need help
                     </Typography>
                   </>
                   : null
