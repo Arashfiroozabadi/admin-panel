@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { BrowserRouter, Switch, Route } from "react-router-dom";
+import { HashRouter, Switch, Route } from "react-router-dom";
 import { Box, BoxProps, ThemeProvider as MuiThemeProvider } from "@material-ui/core";
 import { ThemeProvider } from "styled-components/macro";
 import styled from "styled-components/macro";
@@ -35,7 +35,7 @@ const App: React.FC = () => {
     return () => { };
   }, [t]);
   return (
-    <BrowserRouter>
+    <HashRouter>
       <MuiThemeProvider theme={theme}>
         <ThemeProvider theme={theme}>
           <Main component="main" className="main">
@@ -48,7 +48,7 @@ const App: React.FC = () => {
           </Main>
         </ThemeProvider>
       </MuiThemeProvider>
-    </BrowserRouter>
+    </HashRouter>
   );
 };
 
