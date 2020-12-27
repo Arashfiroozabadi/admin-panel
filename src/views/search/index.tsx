@@ -1,13 +1,17 @@
-import React, { Fragment, useEffect } from "react";
+import React, { Fragment, useEffect, useState } from "react";
 import { gql, useLazyQuery } from "@apollo/client";
 import { useDispatch, useSelector } from "react-redux";
-import { useState } from "react";
+import clsx from "clsx";
 // @Material-Ui components
-import { Button } from "@material-ui/core";
+// import { IconButton } from "@material-ui/core";
+import { createStyles, Theme, makeStyles } from "@material-ui/core/styles";
+import { NavigateBefore, NavigateNext } from "@material-ui/icons";
+
 
 // Local Components
-import { Container, Loading, Typography } from "../../components/themed";
 import { getSearchType, getSearchQuery, getPagintion } from "../../features/gql";
+
+import { Container, Loading, Typography, IconButton } from "../../components/themed";
 
 import Header from "./Header";
 import Main from "./Main";
@@ -58,6 +62,22 @@ const SEARCH = gql`
   }
 `;
 
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    pagination: {
+      display: "flex",
+      alignItems: "center",
+    },
+    paginationIconBtn: {
+      padding: theme.spacing(0.5),
+      margin: `0px ${theme.spacing(0.5)}px`,
+      "&:hover": {
+        color: "#171819!important"
+      }
+    }
+  })
+);
+
 interface PageInfoStateTypes {
   nextPage: string | null
   pageCount: number
@@ -71,6 +91,9 @@ const Search: React.FC = () => {
     pageCount: 1,
     pageList: [null]
   });
+
+  // Style Hooks
+  const classes = useStyles();
 
   // Redux States
   const gqlSearchTpye = useSelector(getSearchType);
@@ -148,35 +171,32 @@ const Search: React.FC = () => {
 
         {/* Footer */}
         <Footer >
-          <div>
+          <div className={classes.pagination} >
             {
               !called ? "" : loading ? "" :
                 <>
-                  <Button
-                    variant="contained"
-                    color="primary"
+                  <IconButton
+                    className={clsx(classes.paginationIconBtn)}
                     type="button"
-                    className="btn"
                     cy-data="go-back-button"
                     disabled={!data.search.pageInfo.hasPreviousPage}
                     onClick={handlePrevPage}
                   >
-                    prev page
-                  </Button>
+                    <NavigateBefore />
+                  </IconButton>
                   <Typography>
                     {pageInfo.pageCount}
                   </Typography>
-                  <Button
-                    variant="contained"
+                  <IconButton
                     color="primary"
                     type="button"
-                    className="btn"
-                    cy-data="go-back-button"
+                    className={clsx(classes.paginationIconBtn)}
+                    cy-data="go-next-button"
                     disabled={!data.search.pageInfo.hasNextPage}
                     onClick={handleNextPage}
                   >
-                    next page
-                  </Button>
+                    <NavigateNext />
+                  </IconButton>
                 </>
             }
           </div>
