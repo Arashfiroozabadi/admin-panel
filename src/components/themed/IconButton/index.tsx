@@ -14,41 +14,42 @@ interface PropsType extends IconButtonProps {
 
 export default (props: PropsType) => {
   const t = useSelector(selectors.getTheme);
-  const { style, children, btntype, ...other } = props;
+  const { style, children, btntype, disabled, ...other } = props;
   return (
     <StyledIconButton
       style={
         btntype === "delete" ?
           {
-            backgroundColor: palette.button.delete.bgc[t],
-            color: palette.button.delete.color[t],
+            backgroundColor: disabled ? palette.disable.bgc[t] : palette.button.delete.bgc[t],
+            color: disabled ? palette.disable.color[t] : palette.button.delete.color[t],
             ...style
           } :
           btntype === "navMenu" ?
             {
-              backgroundColor: palette.button.navMenu.bgc[t],
-              color: palette.button.delete.color[t],
+              backgroundColor: disabled ? palette.disable.bgc[t] : palette.button.navMenu.bgc[t],
+              color: disabled ? palette.disable.color[t] : palette.button.delete.color[t],
               ...style
             } :
             btntype === "close" ?
               {
-                backgroundColor: palette.button.close.bgc[t],
-                color: palette.button.close.color[t],
+                backgroundColor: disabled ? palette.disable.bgc[t] : palette.button.close.bgc[t],
+                color: disabled ? palette.disable.color[t] : palette.button.close.color[t],
                 padding: 7,
                 ...style
               } :
               btntype === "theme" ?
                 {
-                  backgroundColor: palette.theme.bgc[t],
+                  backgroundColor: disabled ? palette.disable.bgc[t] : palette.theme.bgc[t],
                   color: palette.theme.color[t],
                   ...style
                 } :
                 {
-                  backgroundColor: palette.icon.bgc[t],
-                  color: palette.icon.color[t],
+                  backgroundColor: disabled ? palette.disable.bgc[t] : palette.icon.bgc[t],
+                  color: disabled ? palette.disable.color[t] : palette.icon.color[t],
                   ...style
                 }
       }
+      disabled={disabled}
       {...other}
     >
       {children}
