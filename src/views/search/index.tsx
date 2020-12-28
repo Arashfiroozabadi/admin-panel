@@ -54,6 +54,17 @@ const SEARCH = gql`
             }
           }
           ...on User{
+            id
+            url
+            bio
+            email
+            login
+            company
+            location
+            avatarUrl 
+            followers{
+              totalCount
+            }
             userName:name
           }
         }
