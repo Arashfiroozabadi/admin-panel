@@ -8,57 +8,83 @@ import { useSelector } from "react-redux";
 import { Divider, Typography } from "../../components/themed";
 import { selectors } from "../../features/counter";
 import palette from "../../ui/palette";
+import { ImgLoader } from "../../components";
 
 interface PropTypes {
   items: {
     repositoryCount: number
     issueCount: number
     userCount: number
-    edges: [{
-      node: {
-        id: string
-        url: string
-        name: string
-        issues: {
-          totalCount: number
-        }
-        updatedAt: string
-        description: string
-        homepageUrl: string
-        nameWithOwner: string
-        stargazerCount: number
-        primaryLanguage: {
-          name: string
-          color: string
-        }
-        licenseInfo: {
-          name: string
-        }
-      }
-    }]
+    edges: []
   }
 }
 
+interface RepoPropTypes {
+  node: {
+    id: string
+    url: string
+    name: string
+    issues: {
+      totalCount: number
+    }
+    updatedAt: string
+    description: string
+    homepageUrl: string
+    nameWithOwner: string
+    stargazerCount: number
+    primaryLanguage: {
+      name: string
+      color: string
+    }
+    licenseInfo: {
+      name: string
+    }
+  }
+}
+interface UserPropTypes {
+  node: {
+    id: string
+    url: string
+    bio: string
+    email: string
+    login: string
+    company: string
+    userName: string
+    location: string
+    avatarUrl: string
+    followers: {
+      totalCount: number
+    }
+  }
+}
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
     root: {
 
     },
+    wrapper: {
+      height: 300,
+      overflow: "hidden scroll",
+    },
     resultCount: {
       padding: "15px 0px"
+    },
+    card: {
+      padding: `${theme.spacing(2)}px 0px`,
     },
     item: {
 
     },
     itemBody: {
-      padding: "0px 10px",
+      padding: `0px ${theme.spacing(4)}px`,
     },
     footer: {
       display: "flex",
+      padding: `0px ${theme.spacing(4)}px`,
       alignItems: "center",
     },
     footerRow: {
-      margin: "0px 10px"
+      marginRight: 10
     },
     footerCaptionText: {
       fontSize: "small"
@@ -87,6 +113,19 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     openIssue: {
 
+    },
+    userHeader: {
+      display: "flex"
+    },
+    avatar: {
+      marginRight: theme.spacing(1)
+    },
+    userUrl: {
+      marginRight: theme.spacing(1)
+    },
+    userBio: {
+      width: "70%",
+      margin: `${theme.spacing(1)}px 0px`
     }
   })
 );
@@ -98,6 +137,7 @@ function SearchResult({ items }: PropTypes) {
   // Redux States
   const t = useSelector(selectors.getTheme);
 
+  // Respository Result
   if (items.repositoryCount > 0) {
     const repoCount = numberWithCommas(items.repositoryCount);
     return (
@@ -105,107 +145,195 @@ function SearchResult({ items }: PropTypes) {
         <div className={classes.resultCount} >
           <Typography variant="h5" > {repoCount} repository results</Typography>
         </div>
-        {items.edges.map((item) => (
-          <div key={item.node.id} >
-            {/* Item Header */}
-            <Typography>
-              <a href={item.node.url}>
-                {item.node.nameWithOwner}
-              </a>
-            </Typography>
-
-            {/* Item Body */}
-            <div className={classes.itemBody} >
-              <Typography variant="body1" >
-                {item.node.description}
-              </Typography>
-            </div>
-
-            {/* Item Footer */}
-            <div className={classes.footer} >
-              <div className={clsx(classes.footerRow)} >
-                <Typography variant="caption" className={clsx(classes.star, classes.footerCaptionText)}
-                  style={{
-                    color: palette.text.caption[t]
-                  }}
-                >
-                  <Star
-                    style={{
-                      fontSize: "1rem"
-                    }}
-                    htmlColor="gold"
-                  />
-                  {makeFriendly(item.node.stargazerCount)}
+        <div className={classes.wrapper} >
+          {items.edges.map((item: RepoPropTypes) => (
+            <div key={item.node.id} >
+              <div className={classes.card} >
+                {/* Item Header */}
+                <Typography gutterBottom>
+                  <a href={item.node.url}>
+                    {item.node.nameWithOwner}
+                  </a>
                 </Typography>
-              </div>
-              <div className={clsx(classes.language, classes.footerRow)}>
-                {item.node.primaryLanguage ?
-                  <>
-                    <span
-                      className={classes.langColor}
-                      style={{
-                        backgroundColor: item.node.primaryLanguage.color
-                      }}
-                    />
-                    <Typography variant="caption" className={clsx(classes.footerCaptionText)}
+
+                {/* Item Body */}
+                <div className={classes.itemBody} >
+                  <Typography variant="body1" gutterBottom >
+                    {item.node.description}
+                  </Typography>
+                </div>
+
+                {/* Item Footer */}
+                <div className={classes.footer} >
+                  <div className={clsx(classes.footerRow)} >
+                    <Typography variant="caption" className={clsx(classes.star, classes.footerCaptionText)}
                       style={{
                         color: palette.text.caption[t]
                       }}
                     >
-                      {item.node.primaryLanguage.name}
+                      <Star
+                        style={{
+                          fontSize: "1rem"
+                        }}
+                        htmlColor="gold"
+                      />
+                      {makeFriendly(item.node.stargazerCount)}
                     </Typography>
-                  </>
-                  : null
-                }
-              </div>
-              <div className={clsx(classes.license, classes.footerRow)} >
-                {item.node.licenseInfo ?
-                  <>
+                  </div>
+                  <div className={clsx(classes.language, classes.footerRow)}>
+                    {item.node.primaryLanguage ?
+                      <>
+                        <span
+                          className={classes.langColor}
+                          style={{
+                            backgroundColor: item.node.primaryLanguage.color
+                          }}
+                        />
+                        <Typography variant="caption" className={clsx(classes.footerCaptionText)}
+                          style={{
+                            color: palette.text.caption[t]
+                          }}
+                        >
+                          {item.node.primaryLanguage.name}
+                        </Typography>
+                      </>
+                      : null
+                    }
+                  </div>
+                  <div className={clsx(classes.license, classes.footerRow)} >
+                    {item.node.licenseInfo ?
+                      <>
+                        <Typography variant="caption" className={clsx(classes.footerCaptionText)}
+                          style={{
+                            color: palette.text.caption[t],
+                          }}
+                        >
+                          {item.node.licenseInfo.name}
+                        </Typography>
+                      </>
+                      : null
+                    }
+                  </div>
+                  <div className={clsx(classes.lastUpdate, classes.footerRow)} >
                     <Typography variant="caption" className={clsx(classes.footerCaptionText)}
                       style={{
                         color: palette.text.caption[t],
                       }}
                     >
-                      {item.node.licenseInfo.name}
+                      Updated {new Date(item.node.updatedAt).toLocaleDateString()}
                     </Typography>
-                  </>
-                  : null
-                }
-              </div>
-              <div className={clsx(classes.lastUpdate, classes.footerRow)} >
-                <Typography variant="caption" className={clsx(classes.footerCaptionText)}
-                  style={{
-                    color: palette.text.caption[t],
-                  }}
-                >
-                  Updated {new Date(item.node.updatedAt).toLocaleDateString()}
-                </Typography>
-              </div>
-              <div className={clsx(classes.openIssue, classes.footerRow)} >
-                {item.node.issues.totalCount > 0 ?
-                  <>
-                    <Typography
-                      className={clsx(classes.footerCaptionText)}
-                      variant="caption"
-                      style={{ color: palette.text.caption[t] }}
-                    >
-                      {item.node.issues.totalCount} issues need help
+                  </div>
+                  <div className={clsx(classes.openIssue, classes.footerRow)} >
+                    {item.node.issues.totalCount > 0 ?
+                      <>
+                        <Typography
+                          className={clsx(classes.footerCaptionText)}
+                          variant="caption"
+                          style={{ color: palette.text.caption[t] }}
+                        >
+                          {item.node.issues.totalCount} issues need help
                     </Typography>
-                  </>
-                  : null
-                }
+                      </>
+                      : null
+                    }
+                  </div>
+                </div>
               </div>
+              <Divider />
             </div>
-            <Divider />
-          </div>
-        ))}
+          ))}
+        </div>
       </div>
     );
   }
 
+  // User Result
   if (items.userCount > 0) {
+    const userCount = numberWithCommas(items.userCount);
     return (
-      <div>repos</div>
+      <div className={classes.root} >
+        <div className={classes.resultCount} >
+          <Typography variant="h5" > {userCount} users</Typography>
+          <div className={classes.wrapper} >
+            {items.edges.map((item: UserPropTypes) => (
+              <div key={item.node.id}>
+                <div className={classes.card}>
+                  {/*item Header */}
+                  <div className={classes.userHeader} >
+                    <div className={classes.avatar}>
+                      <ImgLoader
+                        url={item.node.avatarUrl}
+                        alt={item.node.userName}
+                        width={30}
+                        height={30}
+                      />
+                    </div>
+                    <Typography
+                      className={classes.userUrl}
+                      component="span"
+                    >
+                      <a href={item.node.url}>
+                        {item.node.userName}
+                      </a>
+                    </Typography>
+                    <Typography
+                      style={{
+                        color: palette.text.caption[t]
+                      }}
+                      component="span"
+                    >
+                      {item.node.login}
+                    </Typography>
+                  </div>
+
+                  {/* Item Body */}
+                  <div className={classes.itemBody} >
+                    <Typography
+                      variant="body1"
+                      className={classes.userBio}
+                      gutterBottom
+                    >
+                      {item.node.bio}
+                    </Typography>
+                  </div>
+
+                  {/* Item Footer */}
+                  <div className={classes.footer} >
+                    <div className={classes.footerRow}>
+                      <Typography
+                        variant="caption"
+                        className={clsx(classes.footerCaptionText)}
+                        style={{ color: palette.text.caption[t] }}
+                      >
+                        {item.node.location}
+                      </Typography>
+                    </div>
+                    <div className={classes.footerRow}>
+                      <Typography
+                        variant="caption"
+                        className={clsx(classes.footerCaptionText)}
+                        style={{ color: palette.text.caption[t] }}
+                      >
+                        {item.node.email}
+                      </Typography>
+                    </div>
+                    <div className={classes.footerRow}>
+                      <Typography
+                        variant="caption"
+                        className={clsx(classes.footerCaptionText)}
+                        style={{ color: palette.text.caption[t] }}
+                      >
+                        {item.node.company}
+                      </Typography>
+                    </div>
+                  </div>
+                </div>
+                <Divider />
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
     );
   }
 
@@ -216,25 +344,7 @@ function SearchResult({ items }: PropTypes) {
   }
 
   return (
-    <div>
-      <Typography>
-        {items.edges.map((item: any) => {
-
-          if (item.node.nameWithOwner) {
-            return (
-              <div key={item.node.id}>
-                Search result counts : {items.repositoryCount}
-                <div>
-                  {item.node.nameWithOwner}
-                </div>
-              </div>
-            );
-          }
-
-
-        })}
-      </Typography>
-    </div>
+    null
   );
 }
 
