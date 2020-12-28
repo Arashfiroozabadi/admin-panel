@@ -49,11 +49,13 @@ interface ImgProps extends AvatarProps {
 const Img = styled((props: ImgProps) => {
   const { ...other } = props;
   return (
-    <Avatar {...other} />
+    <Avatar classes={{ root: "avatar" }}  {...other} />
   );
 })`
+&.avatar{
   width: ${props => props.width}px;
   height: ${props => props.height}px;
+}
 `;
 
 export default ImgLoader;
