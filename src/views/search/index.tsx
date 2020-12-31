@@ -70,6 +70,18 @@ const SEARCH = gql`
               totalCount
             }
           }
+          ... on Issue {
+            url
+            title
+            author {
+              login
+              url
+            }
+            comments{
+              totalCount
+            }
+            createdAt
+          }
         }
       }
     }
