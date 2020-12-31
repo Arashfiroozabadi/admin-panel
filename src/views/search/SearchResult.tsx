@@ -151,7 +151,7 @@ function SearchResult({ items }: PropTypes) {
               <div className={classes.card} >
                 {/* Item Header */}
                 <Typography gutterBottom>
-                  <a href={item.node.url}>
+                  <a href={item.node.url} target="_blanck" >
                     {item.node.nameWithOwner}
                   </a>
                 </Typography>
@@ -272,7 +272,7 @@ function SearchResult({ items }: PropTypes) {
                       className={classes.userUrl}
                       component="span"
                     >
-                      <a href={item.node.url}>
+                      <a href={item.node.url} target="_blanck" >
                         {item.node.userName}
                       </a>
                     </Typography>
