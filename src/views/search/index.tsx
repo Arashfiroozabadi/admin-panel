@@ -61,11 +61,14 @@ const SEARCH = gql`
             login
             company
             location
-            avatarUrl 
+            avatarUrl
             followers{
               totalCount
             }
             userName:name
+            starredRepositories {
+              totalCount
+            }
           }
         }
       }
