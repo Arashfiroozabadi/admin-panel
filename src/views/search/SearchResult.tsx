@@ -1,6 +1,6 @@
 import React from "react";
 import { createStyles, Theme, makeStyles } from "@material-ui/core/styles";
-import { Star } from "@material-ui/icons";
+import { Star, InfoOutlined } from "@material-ui/icons";
 import clsx from "clsx";
 
 import { useSelector } from "react-redux";
@@ -54,6 +54,29 @@ interface UserPropTypes {
     avatarUrl: string
     followers: {
       totalCount: number
+    }
+    starredRepositories: {
+      totalCount: number
+    }
+  }
+}
+interface IssuePropTypes {
+  node: {
+    id: string
+    url: string
+    title: string
+    number: number
+    author: {
+      url: string
+      login: string
+    }
+    comments: {
+      totalCount: number
+    }
+    createdAt: string
+    repository: {
+      url: string
+      nameWithOwner: string
     }
   }
 }
@@ -126,7 +149,24 @@ const useStyles = makeStyles((theme: Theme) =>
     userBio: {
       width: "70%",
       margin: `${theme.spacing(1)}px 0px`
-    }
+    },
+    issueHeader: {
+      display: "flex",
+      alignItems: "center",
+    },
+    issueIcon: {
+      color: "#22863a",
+      marginRight: theme.spacing(1),
+    },
+    issueHeaderText: {
+      marginRight: theme.spacing(1),
+    },
+
+    issueLink: {
+      // "&:hover": {
+      //   color: "#0366d6"
+      // }
+    },
   })
 );
 
@@ -326,6 +366,30 @@ function SearchResult({ items }: PropTypes) {
                         {item.node.company}
                       </Typography>
                     </div>
+                    <div className={classes.footerRow}>
+                      <Typography
+                        variant="caption"
+                        className={clsx(classes.footerCaptionText)}
+                        style={{ color: palette.text.caption[t] }}
+                      >
+                        followers {makeFriendly(item.node.followers.totalCount)}
+                      </Typography>
+                    </div>
+                    <div className={clsx(classes.footerRow)} >
+                      <Typography variant="caption" className={clsx(classes.star, classes.footerCaptionText)}
+                        style={{
+                          color: palette.text.caption[t]
+                        }}
+                      >
+                        <Star
+                          style={{
+                            fontSize: "1rem"
+                          }}
+                          htmlColor="gold"
+                        />
+                        {makeFriendly(item.node.starredRepositories.totalCount)}
+                      </Typography>
+                    </div>
                   </div>
                 </div>
                 <Divider />
@@ -337,9 +401,121 @@ function SearchResult({ items }: PropTypes) {
     );
   }
 
+  // Issue Result
   if (items.issueCount > 0) {
+    const issueCount = numberWithCommas(items.issueCount);
     return (
-      <div>repos</div>
+      <div className={classes.root} >
+        <div className={classes.resultCount} >
+          <Typography variant="h5" > {issueCount} issues</Typography>
+          <div className={classes.wrapper} >
+            {items.edges.map((item: IssuePropTypes) => (
+              <div key={item.node.id}>
+                {!item.node.repository ? null :
+                  <>
+                    <div className={classes.card}>
+                      {/*item Header */}
+                      <div className={classes.issueHeader}>
+                        <InfoOutlined className={classes.issueIcon} />
+                        <Typography
+                          gutterBottom
+                          variant="caption"
+                          className={classes.issueHeaderText}
+                        >
+                          <a
+                            rel="noopener noreferrer"
+                            href={item.node.repository.url}
+                            target="_blank"
+                          >
+                            {item.node.repository.nameWithOwner}
+                          </a>
+                        </Typography>
+                        <Typography
+                          gutterBottom
+                          variant="caption"
+                          className={classes.issueHeaderText}
+                        >
+                          <a
+                            className={classes.issueLink}
+                            rel="noopener noreferrer"
+                            href={`${item.node.repository.url}/issues`}
+                            target="_blank"
+                          >
+                            #{item.node.number}
+                          </a>
+                        </Typography>
+                      </div>
+
+                      {/* item Body */}
+                      <div className={classes.itemBody}>
+                        <Typography
+                          variant="body1"
+                          gutterBottom
+                          color="textSecondary"
+                        >
+                          <a
+                            rel="noopener noreferrer"
+                            href={item.node.url}
+                            target="_blank"
+                            style={{
+                              color: palette.text[t],
+                              textDecoration: "none"
+                            }}
+                          >
+                            {item.node.title}
+                          </a>
+                        </Typography>
+                      </div>
+                      {/* Item Footer */}
+                      <div className={classes.footer} >
+                        <div className={classes.footerRow}>
+                          <Typography
+                            variant="caption"
+                            className={clsx(classes.footerCaptionText)}
+                          >
+                            <a
+                              rel="noopener noreferrer"
+                              href={item.node.author.url}
+                              target="_blank"
+                              style={{ color: palette.text.caption[t] }}
+                            >
+
+                              {item.node.author.login}
+                            </a>
+                          </Typography>
+                        </div>
+                        <div className={classes.footerRow}>
+                          <Typography
+                            variant="caption"
+                            className={clsx(classes.footerCaptionText)}
+                            style={{ color: palette.text.caption[t] }}
+                          >
+                            opened 13 days ago {new Date(item.node.createdAt).toLocaleDateString()}
+                          </Typography>
+                        </div>
+                        <div className={classes.footerRow}>
+                          <Typography
+                            variant="caption"
+                            className={clsx(classes.footerCaptionText)}
+                            style={{ color: palette.text.caption[t] }}
+                          >
+                            {
+                              item.node.comments.totalCount > 0 ?
+                                `${item.node.comments.totalCount} comments`
+                                : null
+                            }
+                          </Typography>
+                        </div>
+                      </div>
+                    </div>
+                    <Divider />
+                  </>
+                }
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
     );
   }
 
