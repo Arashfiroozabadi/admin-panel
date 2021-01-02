@@ -71,8 +71,10 @@ const SEARCH = gql`
             }
           }
           ... on Issue {
+            id
             url
             title
+            number
             author {
               login
               url
@@ -81,6 +83,10 @@ const SEARCH = gql`
               totalCount
             }
             createdAt
+            repository {
+              url
+              nameWithOwner
+            }
           }
         }
       }
