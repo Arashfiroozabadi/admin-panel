@@ -12,6 +12,8 @@ const Main = styled.main`
     padding:2em;
   }
   @media ${device.laptop}{
+    padding: 0.5em;
+    padding-top: 0.5em
   }
 `;
 
