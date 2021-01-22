@@ -61,7 +61,6 @@
   "scripts": {
     "start": "react-scripts start",
     "build": "react-scripts build",
-    "commit": "cz",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
     "lint": "eslint --ext .js,.jsx,.ts,.tsx ./",
