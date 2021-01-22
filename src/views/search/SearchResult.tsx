@@ -87,7 +87,10 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     wrapper: {
       height: 300,
+      padding: theme.spacing(1),
       overflow: "hidden scroll",
+      boxShadow: theme.shadows[5],
+      borderRadius: theme.shape.borderRadius,
     },
     resultCount: {
       padding: "15px 0px"
