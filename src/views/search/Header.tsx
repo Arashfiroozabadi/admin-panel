@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import clsx from "clsx";
 import styled from "styled-components/macro";
@@ -161,7 +161,7 @@ const Header = styled((props: HeaderProps) => {
     setInValue(e.target.value);
 
   };
-  const handleSearchBtn = () => {
+  const handleSearchBtn = useCallback(() => {
     const el = filterRef.current;
     if (gqlSearchQuery !== inValue) {
       dispatch({
@@ -180,12 +180,21 @@ const Header = styled((props: HeaderProps) => {
       type: "SEARCH_QUERY",
       payload: inValue
     });
-  };
+  }, [dispatch, getQuery, gqlSearchQuery, inValue]);
 
   const handleChangeSearchType = (e: React.ChangeEvent<{ value: unknown }>) => {
     setSearchType(e.target.value as searchType);
     dispatch({ type: e.target.value });
   };
+
+
+  const handleUserKeyPress = useCallback((event: KeyboardEvent) => {
+    const { key } = event;
+    if (key === "Enter") {
+      handleSearchBtn();
+    }
+  }, [handleSearchBtn]);
+
 
   // React Hooks
   useEffect(() => {
@@ -193,8 +202,12 @@ const Header = styled((props: HeaderProps) => {
 
     gsap.set(el, { top: -1000 });
 
-    return () => undefined;
-  }, []);
+    window.addEventListener("keydown", handleUserKeyPress);
+
+    return () => {
+      window.removeEventListener("keydown", handleUserKeyPress);
+    };
+  }, [handleUserKeyPress]);
 
   //Element Body 
 
