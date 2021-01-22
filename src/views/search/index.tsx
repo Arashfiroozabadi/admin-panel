@@ -105,7 +105,10 @@ const useStyles = makeStyles((theme: Theme) =>
       margin: `0px ${theme.spacing(0.5)}px`,
       "&:hover": {
         color: "#171819!important"
-      }
+      },
+      [theme.breakpoints.down("xs")]: {
+        padding: theme.spacing(0.1),
+      },
     }
   })
 );

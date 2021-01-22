@@ -6,7 +6,7 @@ import { device } from "../../constants/breakpoint";
 const Main = styled.main`
   padding:5px;
   @media ${device.mobileS}{
-    padding:1em;
+    padding:0.5em;
   }
   @media ${device.tablet}{
     padding:2em;
