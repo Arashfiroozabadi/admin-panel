@@ -103,14 +103,26 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     itemBody: {
       padding: `0px ${theme.spacing(4)}px`,
+      //CSS @Media Querys 
+      [theme.breakpoints.down("xs")]: {
+        padding: `0px ${theme.spacing(1)}px`,
+      },
     },
     footer: {
       display: "flex",
       padding: `0px ${theme.spacing(4)}px`,
       alignItems: "center",
+      //CSS @Media Querys 
+      [theme.breakpoints.down("xs")]: {
+        padding: `0px ${theme.spacing(1)}px`,
+        flexWrap: "wrap",
+      },
     },
     footerRow: {
-      marginRight: 10
+      marginRight: 10,
+      [theme.breakpoints.down("xs")]: {
+        margin: theme.spacing(0.5)
+      },
     },
     footerCaptionText: {
       fontSize: "small"
@@ -156,6 +168,10 @@ const useStyles = makeStyles((theme: Theme) =>
     issueHeader: {
       display: "flex",
       alignItems: "center",
+      marginBottom: theme.spacing(0.5),
+      // [theme.breakpoints.down("xs")]: {
+      //   marginBottom: theme.spacing(0.5)
+      // },
     },
     issueIcon: {
       color: "#22863a",
@@ -301,109 +317,106 @@ function SearchResult({ items }: PropTypes) {
         <div className={classes.wrapper} >
           {items.edges.map((item: UserPropTypes) => (
             <div key={item.node.id}>
-              <div className={classes.card}>
-                {/*item Header */}
-                <div className={classes.userHeader} >
-                  <div className={classes.avatar}>
-                    <ImgLoader
-                      url={item.node.avatarUrl}
-                      alt={item.node.userName}
-                      width={30}
-                      height={30}
-                    />
-                  </div>
-                  <Typography
-                    className={classes.userUrl}
-                    component="span"
-                  >
-                    <a href={item.node.url} target="_blanck" >
-                      {item.node.userName}
-                    </a>
-                  </Typography>
-                  <Typography
-                    style={{
-                      color: palette.text.caption[t]
-                    }}
-                    component="span"
-                  >
-                    {item.node.login}
-                  </Typography>
-                </div>
-
-                {/* Item Body */}
-                <div className={classes.itemBody} >
-                  <Typography
-                    variant="body1"
-                    className={classes.userBio}
-                    gutterBottom
-                  >
-                    {item.node.bio}
-                  </Typography>
-                </div>
-
-                {/* Item Footer */}
-                <div className={classes.footer} >
-                  <div className={classes.footerRow}>
-                    <Typography
-                      variant="caption"
-                      className={clsx(classes.footerCaptionText)}
-                      style={{ color: palette.text.caption[t] }}
-                    >
-                      {item.node.location}
-                    </Typography>
-                  </div>
-                  <div className={classes.footerRow}>
-                    <Typography
-                      variant="caption"
-                      className={clsx(classes.footerCaptionText)}
-                      style={{ color: palette.text.caption[t] }}
-                    >
-                      {item.node.email}
-                    </Typography>
-                  </div>
-                  <div className={classes.footerRow}>
-                    <Typography
-                      variant="caption"
-                      className={clsx(classes.footerCaptionText)}
-                      style={{ color: palette.text.caption[t] }}
-                    >
-                      {item.node.company}
-                    </Typography>
-                  </div>
-                  <div className={classes.footerRow}>
-                    {item.node.followers !== undefined ?
+              {!item.node.id ? null :
+                <>
+                  <div className={classes.card}>
+                    {/*item Header */}
+                    <div className={classes.userHeader} >
+                      <div className={classes.avatar}>
+                        <ImgLoader
+                          url={item.node.avatarUrl}
+                          alt={item.node.userName}
+                          width={30}
+                          height={30}
+                        />
+                      </div>
                       <Typography
-                        variant="caption"
-                        className={clsx(classes.footerCaptionText)}
-                        style={{ color: palette.text.caption[t] }}
+                        className={classes.userUrl}
+                        component="span"
                       >
-                        followers {makeFriendly(item.node.followers.totalCount)}
+                        <a href={item.node.url} target="_blanck" >
+                          {item.node.userName}
+                        </a>
                       </Typography>
-                      : null
-                    }
-
-                  </div>
-                  <div className={clsx(classes.footerRow)} >
-                    {item.node.starredRepositories !== undefined ?
-                      <Typography variant="caption" className={clsx(classes.star, classes.footerCaptionText)}
+                      <Typography
                         style={{
                           color: palette.text.caption[t]
                         }}
+                        component="span"
                       >
-                        <Star
-                          style={{
-                            fontSize: "1rem"
-                          }}
-                          htmlColor="gold"
-                        />
-                        {makeFriendly(item.node.starredRepositories.totalCount)}
+                        {item.node.login}
                       </Typography>
-                      : null
-                    }
+                    </div>
+
+                    {/* Item Body */}
+                    <div className={classes.itemBody} >
+                      <Typography
+                        variant="body1"
+                        className={classes.userBio}
+                        gutterBottom
+                      >
+                        {item.node.bio}
+                      </Typography>
+                    </div>
+
+                    {/* Item Footer */}
+                    <div className={classes.footer} >
+                      <div className={classes.footerRow}>
+                        <Typography
+                          variant="caption"
+                          className={clsx(classes.footerCaptionText)}
+                          style={{ color: palette.text.caption[t] }}
+                        >
+                          {item.node.location}
+                        </Typography>
+                      </div>
+                      <div className={classes.footerRow}>
+                        <Typography
+                          variant="caption"
+                          className={clsx(classes.footerCaptionText)}
+                          style={{ color: palette.text.caption[t] }}
+                        >
+                          {item.node.email}
+                        </Typography>
+                      </div>
+                      <div className={classes.footerRow}>
+                        <Typography
+                          variant="caption"
+                          className={clsx(classes.footerCaptionText)}
+                          style={{ color: palette.text.caption[t] }}
+                        >
+                          {item.node.company}
+                        </Typography>
+                      </div>
+                      <div className={classes.footerRow}>
+                        <Typography
+                          variant="caption"
+                          className={clsx(classes.footerCaptionText)}
+                          style={{ color: palette.text.caption[t] }}
+                        >
+                          followers {makeFriendly(item.node.followers.totalCount)}
+                        </Typography>
+                      </div>
+                      <div className={clsx(classes.footerRow)} >
+                        <Typography variant="caption" className={clsx(classes.star, classes.footerCaptionText)}
+                          style={{
+                            color: palette.text.caption[t]
+                          }}
+                        >
+                          <Star
+                            style={{
+                              fontSize: "1rem"
+                            }}
+                            htmlColor="gold"
+                          />
+                          {makeFriendly(item.node.starredRepositories.totalCount)}
+                        </Typography>
+                      </div>
+                    </div>
                   </div>
-                </div>
-              </div>
-              <Divider />
+                  <Divider />
+                </>
+              }
             </div>
           ))}
         </div>
