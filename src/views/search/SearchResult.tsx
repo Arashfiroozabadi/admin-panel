@@ -93,7 +93,7 @@ const useStyles = makeStyles((theme: Theme) =>
       borderRadius: theme.shape.borderRadius,
     },
     resultCount: {
-      padding: "15px 0px"
+      padding: "0px 0px 30px 0px"
     },
     card: {
       padding: `${theme.spacing(2)}px 0px`,
@@ -297,79 +297,81 @@ function SearchResult({ items }: PropTypes) {
       <div className={classes.root} >
         <div className={classes.resultCount} >
           <Typography variant="h5" > {userCount} users</Typography>
-          <div className={classes.wrapper} >
-            {items.edges.map((item: UserPropTypes) => (
-              <div key={item.node.id}>
-                <div className={classes.card}>
-                  {/*item Header */}
-                  <div className={classes.userHeader} >
-                    <div className={classes.avatar}>
-                      <ImgLoader
-                        url={item.node.avatarUrl}
-                        alt={item.node.userName}
-                        width={30}
-                        height={30}
-                      />
-                    </div>
+        </div>
+        <div className={classes.wrapper} >
+          {items.edges.map((item: UserPropTypes) => (
+            <div key={item.node.id}>
+              <div className={classes.card}>
+                {/*item Header */}
+                <div className={classes.userHeader} >
+                  <div className={classes.avatar}>
+                    <ImgLoader
+                      url={item.node.avatarUrl}
+                      alt={item.node.userName}
+                      width={30}
+                      height={30}
+                    />
+                  </div>
+                  <Typography
+                    className={classes.userUrl}
+                    component="span"
+                  >
+                    <a href={item.node.url} target="_blanck" >
+                      {item.node.userName}
+                    </a>
+                  </Typography>
+                  <Typography
+                    style={{
+                      color: palette.text.caption[t]
+                    }}
+                    component="span"
+                  >
+                    {item.node.login}
+                  </Typography>
+                </div>
+
+                {/* Item Body */}
+                <div className={classes.itemBody} >
+                  <Typography
+                    variant="body1"
+                    className={classes.userBio}
+                    gutterBottom
+                  >
+                    {item.node.bio}
+                  </Typography>
+                </div>
+
+                {/* Item Footer */}
+                <div className={classes.footer} >
+                  <div className={classes.footerRow}>
                     <Typography
-                      className={classes.userUrl}
-                      component="span"
+                      variant="caption"
+                      className={clsx(classes.footerCaptionText)}
+                      style={{ color: palette.text.caption[t] }}
                     >
-                      <a href={item.node.url} target="_blanck" >
-                        {item.node.userName}
-                      </a>
-                    </Typography>
-                    <Typography
-                      style={{
-                        color: palette.text.caption[t]
-                      }}
-                      component="span"
-                    >
-                      {item.node.login}
+                      {item.node.location}
                     </Typography>
                   </div>
-
-                  {/* Item Body */}
-                  <div className={classes.itemBody} >
+                  <div className={classes.footerRow}>
                     <Typography
-                      variant="body1"
-                      className={classes.userBio}
-                      gutterBottom
+                      variant="caption"
+                      className={clsx(classes.footerCaptionText)}
+                      style={{ color: palette.text.caption[t] }}
                     >
-                      {item.node.bio}
+                      {item.node.email}
                     </Typography>
                   </div>
-
-                  {/* Item Footer */}
-                  <div className={classes.footer} >
-                    <div className={classes.footerRow}>
-                      <Typography
-                        variant="caption"
-                        className={clsx(classes.footerCaptionText)}
-                        style={{ color: palette.text.caption[t] }}
-                      >
-                        {item.node.location}
-                      </Typography>
-                    </div>
-                    <div className={classes.footerRow}>
-                      <Typography
-                        variant="caption"
-                        className={clsx(classes.footerCaptionText)}
-                        style={{ color: palette.text.caption[t] }}
-                      >
-                        {item.node.email}
-                      </Typography>
-                    </div>
-                    <div className={classes.footerRow}>
-                      <Typography
-                        variant="caption"
-                        className={clsx(classes.footerCaptionText)}
-                        style={{ color: palette.text.caption[t] }}
-                      >
-                        {item.node.company}
-                      </Typography>
-                    </div>
-                    <div className={classes.footerRow}>
+                  <div className={classes.footerRow}>
+                    <Typography
+                      variant="caption"
+                      className={clsx(classes.footerCaptionText)}
+                      style={{ color: palette.text.caption[t] }}
+                    >
+                      {item.node.company}
+                    </Typography>
+                  </div>
+                  <div className={classes.footerRow}>
+                    {item.node.followers !== undefined ?
                       <Typography
                         variant="caption"
                         className={clsx(classes.footerCaptionText)}
@@ -377,8 +379,12 @@ function SearchResult({ items }: PropTypes) {
                       >
                         followers {makeFriendly(item.node.followers.totalCount)}
                       </Typography>
-                    </div>
-                    <div className={clsx(classes.footerRow)} >
+                      : null
+                    }
+
+                  </div>
+                  <div className={clsx(classes.footerRow)} >
+                    {item.node.starredRepositories !== undefined ?
                       <Typography variant="caption" className={clsx(classes.star, classes.footerCaptionText)}
                         style={{
                           color: palette.text.caption[t]
@@ -392,13 +398,14 @@ function SearchResult({ items }: PropTypes) {
                         />
                         {makeFriendly(item.node.starredRepositories.totalCount)}
                       </Typography>
-                    </div>
+                      : null
+                    }
                   </div>
                 </div>
-                <Divider />
               </div>
-            ))}
-          </div>
+              <Divider />
+            </div>
+          ))}
         </div>
       </div>
     );
@@ -411,112 +418,112 @@ function SearchResult({ items }: PropTypes) {
       <div className={classes.root} >
         <div className={classes.resultCount} >
           <Typography variant="h5" > {issueCount} issues</Typography>
-          <div className={classes.wrapper} >
-            {items.edges.map((item: IssuePropTypes) => (
-              <div key={item.node.id}>
-                {!item.node.repository ? null :
-                  <>
-                    <div className={classes.card}>
-                      {/*item Header */}
-                      <div className={classes.issueHeader}>
-                        <InfoOutlined className={classes.issueIcon} />
+        </div>
+        <div className={classes.wrapper} >
+          {items.edges.map((item: IssuePropTypes) => (
+            <div key={item.node.id}>
+              {!item.node.repository ? null :
+                <>
+                  <div className={classes.card}>
+                    {/*item Header */}
+                    <div className={classes.issueHeader}>
+                      <InfoOutlined className={classes.issueIcon} />
+                      <Typography
+                        gutterBottom
+                        variant="caption"
+                        className={classes.issueHeaderText}
+                      >
+                        <a
+                          rel="noopener noreferrer"
+                          href={item.node.repository.url}
+                          target="_blank"
+                        >
+                          {item.node.repository.nameWithOwner}
+                        </a>
+                      </Typography>
+                      <Typography
+                        gutterBottom
+                        variant="caption"
+                        className={classes.issueHeaderText}
+                      >
+                        <a
+                          className={classes.issueLink}
+                          rel="noopener noreferrer"
+                          href={`${item.node.repository.url}/issues`}
+                          target="_blank"
+                        >
+                          #{item.node.number}
+                        </a>
+                      </Typography>
+                    </div>
+
+                    {/* item Body */}
+                    <div className={classes.itemBody}>
+                      <Typography
+                        variant="body1"
+                        gutterBottom
+                        color="textSecondary"
+                      >
+                        <a
+                          rel="noopener noreferrer"
+                          href={item.node.url}
+                          target="_blank"
+                          style={{
+                            color: palette.text[t],
+                            textDecoration: "none"
+                          }}
+                        >
+                          {item.node.title}
+                        </a>
+                      </Typography>
+                    </div>
+                    {/* Item Footer */}
+                    <div className={classes.footer} >
+                      <div className={classes.footerRow}>
                         <Typography
-                          gutterBottom
                           variant="caption"
-                          className={classes.issueHeaderText}
+                          className={clsx(classes.footerCaptionText)}
                         >
                           <a
                             rel="noopener noreferrer"
-                            href={item.node.repository.url}
+                            href={item.node.author.url}
                             target="_blank"
+                            style={{ color: palette.text.caption[t] }}
                           >
-                            {item.node.repository.nameWithOwner}
-                          </a>
-                        </Typography>
-                        <Typography
-                          gutterBottom
-                          variant="caption"
-                          className={classes.issueHeaderText}
-                        >
-                          <a
-                            className={classes.issueLink}
-                            rel="noopener noreferrer"
-                            href={`${item.node.repository.url}/issues`}
-                            target="_blank"
-                          >
-                            #{item.node.number}
+
+                            {item.node.author.login}
                           </a>
                         </Typography>
                       </div>
-
-                      {/* item Body */}
-                      <div className={classes.itemBody}>
+                      <div className={classes.footerRow}>
                         <Typography
-                          variant="body1"
-                          gutterBottom
-                          color="textSecondary"
+                          variant="caption"
+                          className={clsx(classes.footerCaptionText)}
+                          style={{ color: palette.text.caption[t] }}
                         >
-                          <a
-                            rel="noopener noreferrer"
-                            href={item.node.url}
-                            target="_blank"
-                            style={{
-                              color: palette.text[t],
-                              textDecoration: "none"
-                            }}
-                          >
-                            {item.node.title}
-                          </a>
+                          opened 13 days ago {new Date(item.node.createdAt).toLocaleDateString()}
                         </Typography>
                       </div>
-                      {/* Item Footer */}
-                      <div className={classes.footer} >
-                        <div className={classes.footerRow}>
-                          <Typography
-                            variant="caption"
-                            className={clsx(classes.footerCaptionText)}
-                          >
-                            <a
-                              rel="noopener noreferrer"
-                              href={item.node.author.url}
-                              target="_blank"
-                              style={{ color: palette.text.caption[t] }}
-                            >
-
-                              {item.node.author.login}
-                            </a>
-                          </Typography>
-                        </div>
-                        <div className={classes.footerRow}>
-                          <Typography
-                            variant="caption"
-                            className={clsx(classes.footerCaptionText)}
-                            style={{ color: palette.text.caption[t] }}
-                          >
-                            opened 13 days ago {new Date(item.node.createdAt).toLocaleDateString()}
-                          </Typography>
-                        </div>
-                        <div className={classes.footerRow}>
-                          <Typography
-                            variant="caption"
-                            className={clsx(classes.footerCaptionText)}
-                            style={{ color: palette.text.caption[t] }}
-                          >
-                            {
-                              item.node.comments.totalCount > 0 ?
-                                `${item.node.comments.totalCount} comments`
-                                : null
-                            }
-                          </Typography>
-                        </div>
+                      <div className={classes.footerRow}>
+                        <Typography
+                          variant="caption"
+                          className={clsx(classes.footerCaptionText)}
+                          style={{ color: palette.text.caption[t] }}
+                        >
+                          {
+                            item.node.comments.totalCount > 0 ?
+                              `${item.node.comments.totalCount} comments`
+                              : null
+                          }
+                        </Typography>
                       </div>
                     </div>
-                    <Divider />
-                  </>
-                }
-              </div>
-            ))}
-          </div>
+                  </div>
+                  <Divider />
+                </>
+              }
+            </div>
+          ))}
         </div>
       </div>
     );
